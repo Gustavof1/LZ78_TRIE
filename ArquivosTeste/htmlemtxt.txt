@@ -1,0 +1,3362 @@
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Abstract Expressionism (1940s-50s)</h4>
+            <ul>
+                <li>Famous Artists: Jackson Pollock, Mark Rothko, Willem de Kooning</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Pop Art (1950s-60s)</h4>
+            <ul>
+                <li>Famous Artists: Andy Warhol, Roy Lichtenstein, Richard Hamilton</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Minimalism (1960s-70s)</h4>
+            <ul>
+                <li>Famous Artists: Donald Judd, Dan Flavin, Sol LeWitt</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Postmodernism (1970s-90s)</h4>
+            <ul>
+                <li>Famous Artists: Cindy Sherman, Jeff Koons, Barbara Kruger</li>
+                <li>Medium: A wide range of media, including painting, sculpture, installation, and performance art</li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>
+
+<section id="info">
+
+    <h3>Image Metadata</h3>
+    
+    <div id="metadataboxes">
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Drop File Here</p>
+                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            </form>
+            <div id="gallery"></div>
+        </div>
+
+        <div id="allMetaData"></div>
+    </div>
+
+</section>
+
+<section id="about">
+
+    <h3>Image Generation for Styles</h3>
+    
+    <p>All images were generated with either the <a href="https://huggingface.co/XpucT/Deliberate">Deliberate v2</a> or the <a href="https://huggingface.co/Lykon/DreamShaper">DreamShaper 3.2</a> Checkpoint.<br>Sampler was DMP++ 2M Karras or DMP++ SDE Karras, depending on the better result.<br>Very rarely DDIM (less than 0.5&percnt;). Final resolution never smaller than 768px &times; 768px.</p>
+    <p>The prompt for the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#prompts-from-file-or-textbox">textbox</a> was:
+        <code>
+        --prompt style of ArtistName --negative_prompt nude, nsfw, frame, border, text<br>
+        --prompt style of ArtistName, portrait of a woman --negative_prompt same as above<br>
+        --prompt style of ArtistName, Henry C_____ --negative_prompt superman<br>
+        --prompt style of ArtistName, street --negative_prompt text, frame, border
+        </code>
+        While Deliberate has some NSFW Checkpoint mixed in and needs 'nsfw' in the negative prompt, DreamShaper likes manga a lot and frequently requires 'manga, anime' in the np.
+    </p>
+    <p><em>Why these exact prompts?</em></p>
+    <p>The first line conveys a broad, uninfluenced impression.</p>
+    <p>With 'portrait of a woman', you will get a wider range of portraits that are more in line with the artist's personal aesthetic.</p>
+    <p>For the third line: The actor Henry C. is currently well-known and has been well-trained into SD. You can also judge the dominance of a style if he is still rendered normally (weak artist style) or when his superhero costume appears.</p>
+    <p>The last line, 'street', will give you a good idea of how houses, people, and technical items (cars, bikes, etc.) appear.</p>
+
+    <h3>Useful Links</h3>
+    
+    <p>Links that helped me understand the technical side of Stable Diffusion (no affiliation):</p>
+    
+    <ul>
+        <li><a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki">Automatic111 Wiki</a></li>
+        <li><a href="https://stable-diffusion-art.com/tutorials/">Stable-Diffusion-Art.com - Tutorials</a></li>
+    </ul>
+    
+    <h3>Errors</h3><!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stable Diffusion 1.5 - Cheat Sheet</title>
+<link href="./style.css" rel="stylesheet">
+<script src="./lazyload.min.js"></script>
+<script src="./exif-reader.js"></script>
+<script src="./data.js"></script>
+<script src="./spaghetticode.js"></script>
+</head>
+<body>
+
+<header>
+
+    <h1>Stable Diffusion 1.5 - Cheat Sheet</h1>
+    
+    <nav>
+        <ul>
+            <li><a class="mbut" data-page="styles" href="#">Styles</a></li>
+            <li><a class="mbut" data-page="helpers" href="#">Notes</a></li>
+            <li><a class="mbut" data-page="info" href="#">Metadata</a></li>
+            <li><a class="mbut" data-page="about" href="#">About</a></li>
+        </ul>
+        
+        <div id="suche">
+            <a href="#" class="filterbut">Filter</a>
+            <label for="searchbox" class="is-size-5">Search</label>
+            <input type="text" id="searchbox" placeholder="Search">
+            <a href="#" id="clearsearch">&times;</a>
+        </div>
+    </nav>
+    
+    <div id="allcats"></div>
+    
+</header>
+
+<section id="styles">
+    <h3>Artist Inspired Styles</h3>
+    <p>A collection of what Stable Diffusion imagines these artists' styles look like.</p><p>While having an overview is helpful, keep in mind that these styles only imitate certain aspects of the artist's work (color, medium, location, etc.). They are limited by the rather superficial knowledge of SD, but can probably give you a good base for your own creations.</p>
+    <div id="allthestyles"></div>
+</section>
+
+<section id="helpers">
+
+    <h3>Image Dimensions</h3>
+    
+    <p>Stable Diffusion was trained with base dimensions of 512 pixels (SD 1.5) and 768 pixels (SD 2/2.1).<br>While it's not necessary to stick to multiples of 128, it's a good place to start.</p>
+    <div class="numberline"><span>128</span><span>256</span><span>384</span><span class="highlight">512</span><span>640</span><span class="highlight">768</span><span>896</span><span>1024</span></div>
+
+    <p><strong>Some of the common ratios in SD dimensions:</strong></p>
+    <table id="dimensions">
+        <tr>
+            <td>Square</td>
+            <td>1:1</td>
+            <td id="ir1b1">512 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>2:3</td>
+            <td id="ir2b3">512 &times; 768</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>3:4</td>
+            <td id="ir3b4">512 &times; 683</td>
+        </tr>
+        <tr>
+            <td>Social Media</td>
+            <td>4:5</td>
+            <td id="ir4b5">512 &times; 640</td>
+        </tr>
+        <tr>
+            <td>Standard Monitor</td>
+            <td>16:9</td>
+            <td id="ir16b9">910 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
+            <td>16:10</td>
+            <td id="ir16b10">819 &times; 512</td>
+        </tr>
+        <tr>
+            <td>UltraWide Monitor</td>
+            <td>21:9</td>
+            <td id="ir21b9">1195 &times; 512</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="nobgr"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label for="ratiobox">Base size</label></td>
+            <td class="nobgr"><input type="search" id="ratiobox" placeholder="Base Size" value="512"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h3>Prompt Examples - Art Media</h3>
+
+    <h4>Photo</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/00-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/00-photo.webp"></a>
+            <figcaption>Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/01-analog-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/01-analog-photo.webp"></a>
+            <figcaption>Analog Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/15-lomography.webp" target="_blank"><img class="lazy" data-src="./img/types/15-lomography.webp"></a>
+            <figcaption>Lomography</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/17-pinhole.webp" target="_blank"><img class="lazy" data-src="./img/types/17-pinhole.webp"></a>
+            <figcaption>Pinhole Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/02-wet-plate-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/02-wet-plate-photo.webp"></a>
+            <figcaption>Wet Plate Photo</figcaption>
+        </figure>
+    </div>
+    
+    <h4>Drawing, Painting, Print</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/03-pencil-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/03-pencil-drawing.webp"></a>
+            <figcaption>Pencil Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/04-pen-and-ink-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/04-pen-and-ink-drawing.webp"></a>
+            <figcaption>Pen and Ink Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/06-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/06-watercolor-painting.webp"></a>
+            <figcaption>Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/07-pen-and-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/07-pen-and-watercolor-painting.webp"></a>
+            <figcaption>Pen and Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/08-oil-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/08-oil-painting.webp"></a>
+            <figcaption>Oil Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/09-acrylic-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/09-acrylic-painting.webp"></a>
+            <figcaption>Acrylic Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/10-rough-charcoal-sketch.webp" target="_blank"><img class="lazy" data-src="./img/types/10-rough-charcoal-sketch.webp"></a>
+            <figcaption>Rough Charcoal Sketch</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/20-crayon-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/20-crayon-drawing.webp"></a>
+            <figcaption>Crayon Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/05-engraving-illustration.webp" target="_blank"><img class="lazy" data-src="./img/types/05-engraving-illustration.webp"></a>
+            <figcaption>Engraving Illustration</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/24-mezzotint-print.webp" target="_blank"><img class="lazy" data-src="./img/types/24-mezzotint-print.webp"></a>
+            <figcaption>Mezzotint Print</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/25-linocut-print.webp" target="_blank"><img class="lazy" data-src="./img/types/25-linocut-print.webp"></a>
+            <figcaption>Linocut Print</figcaption>
+        </figure>
+        </div>
+    
+    <h4>Digital, Other</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/16-comic-character.webp" target="_blank"><img class="lazy" data-src="./img/types/16-comic-character.webp"></a>
+            <figcaption>Comic Character</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/19-pixel-art.webp" target="_blank"><img class="lazy" data-src="./img/types/19-pixel-art.webp"></a>
+            <figcaption>Pixel Art</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/22-vector-graphic.webp" target="_blank"><img class="lazy" data-src="./img/types/22-vector-graphic.webp"></a>
+            <figcaption>Vector Graphic</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/11-3d-render.webp" target="_blank"><img class="lazy" data-src="./img/types/11-3d-render.webp"></a>
+            <figcaption>3D Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/12-lowpoly-render.webp" target="_blank"><img class="lazy" data-src="./img/types/12-lowpoly-render.webp"></a>
+            <figcaption>Low Poly Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/18-modelling-clay.webp" target="_blank"><img class="lazy" data-src="./img/types/18-modelling-clay.webp"></a>
+            <figcaption>Modelling Clay</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/21-embroidery-cross-stitch.webp" target="_blank"><img class="lazy" data-src="./img/types/21-embroidery-cross-stitch.webp"></a>
+            <figcaption>Embroidery Cross Stitch</figcaption>
+        </figure>
+    </div>
+    
+    <h3>Art History - Some Pointers</h3>
+    
+    <ul id="arthistory">
+        <li>
+            <h4>Renaissance (14<sup>th</sup>-16<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Leonardo da Vinci, Michelangelo Buonarroti, Raffaello Sanzio da Urbino, Sandro Botticelli</li>
+                <li>Medium: Oil on wood or canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Mannerism (16<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, El Greco, Benvenuto Cellini, Jacopo Pontormo, Parmigianino, Bronzino</li>
+                <li>Medium: Oil on canvas, sculpture, and architecture</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Baroque (17<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, Gian Lorenzo Bernini, Rembrandt van Rijn, Peter Paul Rubens</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Rococo (18<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Jean-Antoine Watteau, François Boucher, Jean-Honoré Fragonard</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Neoclassicism (18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Jacques-Louis David, Jean-Auguste-Dominique Ingres, Antonio Canova</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Romanticism (late 18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Joseph Mallord William Turner, Francisco de Goya y Lucientes, Eugène Delacroix, Caspar David Friedrich</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Realism (mid-19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Courbet, Honoré Daumier, Jean-François Millet</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Impressionism (late 19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Claude Monet, Pierre-Auguste Renoir, Edgar Degas, Mary Cassatt</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Symbolism (late 19<sup>th</sup> to early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Moreau, Edvard Munch, Odilon Redon, Pierre Puvis de Chavannes, Fernand Khnopff, Franz von Stuck</li>
+                <li>Medium: Oil on canvas, drawing, and printmaking</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Expressionism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Edvard Munch, Wassily Kandinsky, Ernst Ludwig Kirchner</li>
+                <li>Medium: Oil on canvas or woodcuts</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Cubism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Pablo Picasso, Georges Braque, Juan Gris</li>
+                <li>Medium: Oil on canvas or collage</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Futurism (1909-1916)</h4>
+            <ul>
+                <li>Famous Artists: Umberto Boccioni, Giacomo Balla, Gino Severini</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Dada (1916-1924)</h4>
+            <ul>
+                <li>Famous Artists: Marcel Duchamp, Man Ray, Hannah Höch, Jean Arp, Francis Picabia, Kurt Schwitters</li>
+                <li>Medium: Collage, assemblage, and performance</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Bauhaus (1919-1933)</h4>
+            <ul>
+                <li>Famous Artists: Walter Gropius, Ludwig Mies van der Rohe, Wassily Kandinsky, Paul Klee, Josef Albers</li>
+                <li>Medium: Architecture, furniture, and graphic design</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Surrealism (1920s-30s)</h4>
+            <ul>
+                <li>Famous Artists: Salvador Dalí, René Magritte, Max Ernst</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Abstract Expressionism (1940s-50s)</h4>
+            <ul>
+                <li>Famous Artists: Jackson Pollock, Mark Rothko, Willem de Kooning</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Pop Art (1950s-60s)</h4>
+            <ul>
+                <li>Famous Artists: Andy Warhol, Roy Lichtenstein, Richard Hamilton</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Minimalism (1960s-70s)</h4>
+            <ul>
+                <li>Famous Artists: Donald Judd, Dan Flavin, Sol LeWitt</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Postmodernism (1970s-90s)</h4>
+            <ul>
+                <li>Famous Artists: Cindy Sherman, Jeff Koons, Barbara Kruger</li>
+                <li>Medium: A wide range of media, including painting, sculpture, installation, and performance art</li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>
+
+<section id="info">
+
+    <h3>Image Metadata</h3>
+    
+    <div id="metadataboxes">
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Drop File Here</p>
+                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            </form>
+            <div id="gallery"></div>
+        </div>
+
+        <div id="allMetaData"></div>
+    </div>
+
+</section>
+
+<section id="about">
+
+    <h3>Image Generation for Styles</h3>
+    
+    <p>All images were generated with either the <a href="https://huggingface.co/XpucT/Deliberate">Deliberate v2</a> or the <a href="https://huggingface.co/Lykon/DreamShaper">DreamShaper 3.2</a> Checkpoint.<br>Sampler was DMP++ 2M Karras or DMP++ SDE Karras, depending on the better result.<br>Very rarely DDIM (less than 0.5&percnt;). Final resolution never smaller than 768px &times; 768px.</p>
+    <p>The prompt for the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#prompts-from-file-or-textbox">textbox</a> was:
+        <code>
+        --prompt style of ArtistName --negative_prompt nude, nsfw, frame, border, text<br>
+        --prompt style of ArtistName, portrait of a woman --negative_prompt same as above<br>
+        --prompt style of ArtistName, Henry C_____ --negative_prompt superman<br>
+        --prompt style of ArtistName, street --negative_prompt text, frame, border
+        </code>
+        While Deliberate has some NSFW Checkpoint mixed in and needs 'nsfw' in the negative prompt, DreamShaper likes manga a lot and frequently requires 'manga, anime' in the np.
+    </p>
+    <p><em>Why these exact prompts?</em></p>
+    <p>The first line conveys a broad, uninfluenced impression.</p>
+    <p>With 'portrait of a woman', you will get a wider range of portraits that are more in line with the artist's personal aesthetic.</p>
+    <p>For the third line: The actor Henry C. is currently well-known and has been well-trained into SD. You can also judge the dominance of a style if he is still rendered normally (weak artist style) or when his superhero costume appears.</p>
+    <p>The last line, 'street', will give you a good idea of how houses, people, and technical items (cars, bikes, etc.) appear.</p>
+
+    <h3>Useful Links</h3>
+    
+    <p>Links that helped me understand the technical side of Stable Diffusion (no affiliation):</p>
+    
+    <ul>
+        <li><a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki">Automatic111 Wiki</a></li>
+        <li><a href="https://stable-diffusion-art.com/tutorials/">Stable-Diffusion-Art.com - Tutorials</a></li>
+    </ul>
+    
+    <h3>Errors</h3>
+    
+    <p>All information has been collected with the utmost care, however, mistakes always happen. Location information is sometimes difficult when artists move very early in life, or the indication of the era, if the lifetime falls between two centuries.</p>
+
+    <h3>Credits</h3>
+    
+    <p>A BIG THANK YOU TO:</p>
+    <p><a href="https://github.com/verlok/vanilla-lazyload">Lazyload Script</a> from Verlok, Webfont is Google's <a href="https://fonts.google.com/specimen/Roboto">Roboto</a>, SVG Icons from <a href="https://github.com/ionic-team/ionicons">Ionicons</a>, MattiasW's <a href="https://github.com/mattiasw/ExifReader">ExifReader</a>, Code from Himuro-Majika's <a href="https://github.com/himuro-majika/Stable_Diffusion_image_metadata_viewer">Stable Diffusion image metadata viewer</a> Browser Extension</p>
+    <p>Stable Diffusion by <a href="https://ommer-lab.com/research/latent-diffusion-models/">LMU</a> and <a href="https://stability.ai/">stability.ai</a></p>
+
+</section>
+
+<footer>Created 2023 - Version 1.0.0 - <a href="https://github.com/SupaGruen/StableDiffusion-CheatSheet">GitHub</a></footer>
+
+<span id="snackbar">Copied to Clipboard</span>
+
+</body>
+</html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stable Diffusion 1.5 - Cheat Sheet</title>
+<link href="./style.css" rel="stylesheet">
+<script src="./lazyload.min.js"></script>
+<script src="./exif-reader.js"></script>
+<script src="./data.js"></script>
+<script src="./spaghetticode.js"></script>
+</head>
+<body>
+
+<header>
+
+    <h1>Stable Diffusion 1.5 - Cheat Sheet</h1>
+    
+    <nav>
+        <ul>
+            <li><a class="mbut" data-page="styles" href="#">Styles</a></li>
+            <li><a class="mbut" data-page="helpers" href="#">Notes</a></li>
+            <li><a class="mbut" data-page="info" href="#">Metadata</a></li>
+            <li><a class="mbut" data-page="about" href="#">About</a></li>
+        </ul>
+        
+        <div id="suche">
+            <a href="#" class="filterbut">Filter</a>
+            <label for="searchbox" class="is-size-5">Search</label>
+            <input type="text" id="searchbox" placeholder="Search">
+            <a href="#" id="clearsearch">&times;</a>
+        </div>
+    </nav>
+    
+    <div id="allcats"></div>
+    
+</header>
+
+<section id="styles">
+    <h3>Artist Inspired Styles</h3>
+    <p>A collection of what Stable Diffusion imagines these artists' styles look like.</p><p>While having an overview is helpful, keep in mind that these styles only imitate certain aspects of the artist's work (color, medium, location, etc.). They are limited by the rather superficial knowledge of SD, but can probably give you a good base for your own creations.</p>
+    <div id="allthestyles"></div>
+</section>
+
+<section id="helpers">
+
+    <h3>Image Dimensions</h3>
+    
+    <p>Stable Diffusion was trained with base dimensions of 512 pixels (SD 1.5) and 768 pixels (SD 2/2.1).<br>While it's not necessary to stick to multiples of 128, it's a good place to start.</p>
+    <div class="numberline"><span>128</span><span>256</span><span>384</span><span class="highlight">512</span><span>640</span><span class="highlight">768</span><span>896</span><span>1024</span></div>
+
+    <p><strong>Some of the common ratios in SD dimensions:</strong></p>
+    <table id="dimensions">
+        <tr>
+            <td>Square</td>
+            <td>1:1</td>
+            <td id="ir1b1">512 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>2:3</td>
+            <td id="ir2b3">512 &times; 768</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>3:4</td>
+            <td id="ir3b4">512 &times; 683</td>
+        </tr>
+        <tr>
+            <td>Social Media</td>
+            <td>4:5</td>
+            <td id="ir4b5">512 &times; 640</td>
+        </tr>
+        <tr>
+            <td>Standard Monitor</td>
+            <td>16:9</td>
+            <td id="ir16b9">910 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
+            <td>16:10</td>
+            <td id="ir16b10">819 &times; 512</td>
+        </tr>
+        <tr>
+            <td>UltraWide Monitor</td>
+            <td>21:9</td>
+            <td id="ir21b9">1195 &times; 512</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="nobgr"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label for="ratiobox">Base size</label></td>
+            <td class="nobgr"><input type="search" id="ratiobox" placeholder="Base Size" value="512"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h3>Prompt Examples - Art Media</h3>
+
+    <h4>Photo</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/00-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/00-photo.webp"></a>
+            <figcaption>Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/01-analog-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/01-analog-photo.webp"></a>
+            <figcaption>Analog Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/15-lomography.webp" target="_blank"><img class="lazy" data-src="./img/types/15-lomography.webp"></a>
+            <figcaption>Lomography</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/17-pinhole.webp" target="_blank"><img class="lazy" data-src="./img/types/17-pinhole.webp"></a>
+            <figcaption>Pinhole Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/02-wet-plate-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/02-wet-plate-photo.webp"></a>
+            <figcaption>Wet Plate Photo</figcaption>
+        </figure>
+    </div>
+    
+    <h4>Drawing, Painting, Print</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/03-pencil-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/03-pencil-drawing.webp"></a>
+            <figcaption>Pencil Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/04-pen-and-ink-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/04-pen-and-ink-drawing.webp"></a>
+            <figcaption>Pen and Ink Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/06-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/06-watercolor-painting.webp"></a>
+            <figcaption>Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/07-pen-and-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/07-pen-and-watercolor-painting.webp"></a>
+            <figcaption>Pen and Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/08-oil-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/08-oil-painting.webp"></a>
+            <figcaption>Oil Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/09-acrylic-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/09-acrylic-painting.webp"></a>
+            <figcaption>Acrylic Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/10-rough-charcoal-sketch.webp" target="_blank"><img class="lazy" data-src="./img/types/10-rough-charcoal-sketch.webp"></a>
+            <figcaption>Rough Charcoal Sketch</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/20-crayon-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/20-crayon-drawing.webp"></a>
+            <figcaption>Crayon Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/05-engraving-illustration.webp" target="_blank"><img class="lazy" data-src="./img/types/05-engraving-illustration.webp"></a>
+            <figcaption>Engraving Illustration</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/24-mezzotint-print.webp" target="_blank"><img class="lazy" data-src="./img/types/24-mezzotint-print.webp"></a>
+            <figcaption>Mezzotint Print</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/25-linocut-print.webp" target="_blank"><img class="lazy" data-src="./img/types/25-linocut-print.webp"></a>
+            <figcaption>Linocut Print</figcaption>
+        </figure>
+        </div>
+    
+    <h4>Digital, Other</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/16-comic-character.webp" target="_blank"><img class="lazy" data-src="./img/types/16-comic-character.webp"></a>
+            <figcaption>Comic Character</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/19-pixel-art.webp" target="_blank"><img class="lazy" data-src="./img/types/19-pixel-art.webp"></a>
+            <figcaption>Pixel Art</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/22-vector-graphic.webp" target="_blank"><img class="lazy" data-src="./img/types/22-vector-graphic.webp"></a>
+            <figcaption>Vector Graphic</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/11-3d-render.webp" target="_blank"><img class="lazy" data-src="./img/types/11-3d-render.webp"></a>
+            <figcaption>3D Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/12-lowpoly-render.webp" target="_blank"><img class="lazy" data-src="./img/types/12-lowpoly-render.webp"></a>
+            <figcaption>Low Poly Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/18-modelling-clay.webp" target="_blank"><img class="lazy" data-src="./img/types/18-modelling-clay.webp"></a>
+            <figcaption>Modelling Clay</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/21-embroidery-cross-stitch.webp" target="_blank"><img class="lazy" data-src="./img/types/21-embroidery-cross-stitch.webp"></a>
+            <figcaption>Embroidery Cross Stitch</figcaption>
+        </figure>
+    </div>
+    
+    <h3>Art History - Some Pointers</h3>
+    
+    <ul id="arthistory">
+        <li>
+            <h4>Renaissance (14<sup>th</sup>-16<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Leonardo da Vinci, Michelangelo Buonarroti, Raffaello Sanzio da Urbino, Sandro Botticelli</li>
+                <li>Medium: Oil on wood or canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Mannerism (16<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, El Greco, Benvenuto Cellini, Jacopo Pontormo, Parmigianino, Bronzino</li>
+                <li>Medium: Oil on canvas, sculpture, and architecture</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Baroque (17<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, Gian Lorenzo Bernini, Rembrandt van Rijn, Peter Paul Rubens</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Rococo (18<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Jean-Antoine Watteau, François Boucher, Jean-Honoré Fragonard</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Neoclassicism (18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Jacques-Louis David, Jean-Auguste-Dominique Ingres, Antonio Canova</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Romanticism (late 18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Joseph Mallord William Turner, Francisco de Goya y Lucientes, Eugène Delacroix, Caspar David Friedrich</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Realism (mid-19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Courbet, Honoré Daumier, Jean-François Millet</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Impressionism (late 19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Claude Monet, Pierre-Auguste Renoir, Edgar Degas, Mary Cassatt</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Symbolism (late 19<sup>th</sup> to early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Moreau, Edvard Munch, Odilon Redon, Pierre Puvis de Chavannes, Fernand Khnopff, Franz von Stuck</li>
+                <li>Medium: Oil on canvas, drawing, and printmaking</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Expressionism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Edvard Munch, Wassily Kandinsky, Ernst Ludwig Kirchner</li>
+                <li>Medium: Oil on canvas or woodcuts</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Cubism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Pablo Picasso, Georges Braque, Juan Gris</li>
+                <li>Medium: Oil on canvas or collage</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Futurism (1909-1916)</h4>
+            <ul>
+                <li>Famous Artists: Umberto Boccioni, Giacomo Balla, Gino Severini</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Dada (1916-1924)</h4>
+            <ul>
+                <li>Famous Artists: Marcel Duchamp, Man Ray, Hannah Höch, Jean Arp, Francis Picabia, Kurt Schwitters</li>
+                <li>Medium: Collage, assemblage, and performance</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Bauhaus (1919-1933)</h4>
+            <ul>
+                <li>Famous Artists: Walter Gropius, Ludwig Mies van der Rohe, Wassily Kandinsky, Paul Klee, Josef Albers</li>
+                <li>Medium: Architecture, furniture, and graphic design</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Surrealism (1920s-30s)</h4>
+            <ul>
+                <li>Famous Artists: Salvador Dalí, René Magritte, Max Ernst</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Abstract Expressionism (1940s-50s)</h4>
+            <ul>
+                <li>Famous Artists: Jackson Pollock, Mark Rothko, Willem de Kooning</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Pop Art (1950s-60s)</h4>
+            <ul>
+                <li>Famous Artists: Andy Warhol, Roy Lichtenstein, Richard Hamilton</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Minimalism (1960s-70s)</h4>
+            <ul>
+                <li>Famous Artists: Donald Judd, Dan Flavin, Sol LeWitt</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Postmodernism (1970s-90s)</h4>
+            <ul>
+                <li>Famous Artists: Cindy Sherman, Jeff Koons, Barbara Kruger</li>
+                <li>Medium: A wide range of media, including painting, sculpture, installation, and performance art</li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>
+
+<section id="info">
+
+    <h3>Image Metadata</h3>
+    
+    <div id="metadataboxes">
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Drop File Here</p>
+                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            </form>
+            <div id="gallery"></div>
+        </div>
+
+        <div id="allMetaData"></div>
+    </div>
+
+</section>
+
+<section id="about">
+
+    <h3>Image Generation for Styles</h3>
+    
+    <p>All images were generated with either the <a href="https://huggingface.co/XpucT/Deliberate">Deliberate v2</a> or the <a href="https://huggingface.co/Lykon/DreamShaper">DreamShaper 3.2</a> Checkpoint.<br>Sampler was DMP++ 2M Karras or DMP++ SDE Karras, depending on the better result.<br>Very rarely DDIM (less than 0.5&percnt;). Final resolution never smaller than 768px &times; 768px.</p>
+    <p>The prompt for the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#prompts-from-file-or-textbox">textbox</a> was:
+        <code>
+        --prompt style of ArtistName --negative_prompt nude, nsfw, frame, border, text<br>
+        --prompt style of ArtistName, portrait of a woman --negative_prompt same as above<br>
+        --prompt style of ArtistName, Henry C_____ --negative_prompt superman<br>
+        --prompt style of ArtistName, street --negative_prompt text, frame, border
+        </code>
+        While Deliberate has some NSFW Checkpoint mixed in and needs 'nsfw' in the negative prompt, DreamShaper likes manga a lot and frequently requires 'manga, anime' in the np.
+    </p>
+    <p><em>Why these exact prompts?</em></p>
+    <p>The first line conveys a broad, uninfluenced impression.</p>
+    <p>With 'portrait of a woman', you will get a wider range of portraits that are more in line with the artist's personal aesthetic.</p>
+    <p>For the third line: The actor Henry C. is currently well-known and has been well-trained into SD. You can also judge the dominance of a style if he is still rendered normally (weak artist style) or when his superhero costume appears.</p>
+    <p>The last line, 'street', will give you a good idea of how houses, people, and technical items (cars, bikes, etc.) appear.</p>
+
+    <h3>Useful Links</h3>
+    
+    <p>Links that helped me understand the technical side of Stable Diffusion (no affiliation):</p>
+    
+    <ul>
+        <li><a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki">Automatic111 Wiki</a></li>
+        <li><a href="https://stable-diffusion-art.com/tutorials/">Stable-Diffusion-Art.com - Tutorials</a></li>
+    </ul>
+    
+    <h3>Errors</h3>
+    
+    <p>All information has been collected with the utmost care, however, mistakes always happen. Location information is sometimes difficult when artists move very early in life, or the indication of the era, if the lifetime falls between two centuries.</p>
+
+    <h3>Credits</h3>
+    
+    <p>A BIG THANK YOU TO:</p>
+    <p><a href="https://github.com/verlok/vanilla-lazyload">Lazyload Script</a> from Verlok, Webfont is Google's <a href="https://fonts.google.com/specimen/Roboto">Roboto</a>, SVG Icons from <a href="https://github.com/ionic-team/ionicons">Ionicons</a>, MattiasW's <a href="https://github.com/mattiasw/ExifReader">ExifReader</a>, Code from Himuro-Majika's <a href="https://github.com/himuro-majika/Stable_Diffusion_image_metadata_viewer">Stable Diffusion image metadata viewer</a> Browser Extension</p>
+    <p>Stable Diffusion by <a href="https://ommer-lab.com/research/latent-diffusion-models/">LMU</a> and <a href="https://stability.ai/">stability.ai</a></p>
+
+</section>
+
+<footer>Created 2023 - Version 1.0.0 - <a href="https://github.com/SupaGruen/StableDiffusion-CheatSheet">GitHub</a></footer>
+
+<span id="snackbar">Copied to Clipboard</span>
+
+</body>
+</html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stable Diffusion 1.5 - Cheat Sheet</title>
+<link href="./style.css" rel="stylesheet">
+<script src="./lazyload.min.js"></script>
+<script src="./exif-reader.js"></script>
+<script src="./data.js"></script>
+<script src="./spaghetticode.js"></script>
+</head>
+<body>
+
+<header>
+
+    <h1>Stable Diffusion 1.5 - Cheat Sheet</h1>
+    
+    <nav>
+        <ul>
+            <li><a class="mbut" data-page="styles" href="#">Styles</a></li>
+            <li><a class="mbut" data-page="helpers" href="#">Notes</a></li>
+            <li><a class="mbut" data-page="info" href="#">Metadata</a></li>
+            <li><a class="mbut" data-page="about" href="#">About</a></li>
+        </ul>
+        
+        <div id="suche">
+            <a href="#" class="filterbut">Filter</a>
+            <label for="searchbox" class="is-size-5">Search</label>
+            <input type="text" id="searchbox" placeholder="Search">
+            <a href="#" id="clearsearch">&times;</a>
+        </div>
+    </nav>
+    
+    <div id="allcats"></div>
+    
+</header>
+
+<section id="styles">
+    <h3>Artist Inspired Styles</h3>
+    <p>A collection of what Stable Diffusion imagines these artists' styles look like.</p><p>While having an overview is helpful, keep in mind that these styles only imitate certain aspects of the artist's work (color, medium, location, etc.). They are limited by the rather superficial knowledge of SD, but can probably give you a good base for your own creations.</p>
+    <div id="allthestyles"></div>
+</section>
+
+<section id="helpers">
+
+    <h3>Image Dimensions</h3>
+    
+    <p>Stable Diffusion was trained with base dimensions of 512 pixels (SD 1.5) and 768 pixels (SD 2/2.1).<br>While it's not necessary to stick to multiples of 128, it's a good place to start.</p>
+    <div class="numberline"><span>128</span><span>256</span><span>384</span><span class="highlight">512</span><span>640</span><span class="highlight">768</span><span>896</span><span>1024</span></div>
+
+    <p><strong>Some of the common ratios in SD dimensions:</strong></p>
+    <table id="dimensions">
+        <tr>
+            <td>Square</td>
+            <td>1:1</td>
+            <td id="ir1b1">512 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>2:3</td>
+            <td id="ir2b3">512 &times; 768</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>3:4</td>
+            <td id="ir3b4">512 &times; 683</td>
+        </tr>
+        <tr>
+            <td>Social Media</td>
+            <td>4:5</td>
+            <td id="ir4b5">512 &times; 640</td>
+        </tr>
+        <tr>
+            <td>Standard Monitor</td>
+            <td>16:9</td>
+            <td id="ir16b9">910 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
+            <td>16:10</td>
+            <td id="ir16b10">819 &times; 512</td>
+        </tr>
+        <tr>
+            <td>UltraWide Monitor</td>
+            <td>21:9</td>
+            <td id="ir21b9">1195 &times; 512</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="nobgr"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label for="ratiobox">Base size</label></td>
+            <td class="nobgr"><input type="search" id="ratiobox" placeholder="Base Size" value="512"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h3>Prompt Examples - Art Media</h3>
+
+    <h4>Photo</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/00-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/00-photo.webp"></a>
+            <figcaption>Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/01-analog-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/01-analog-photo.webp"></a>
+            <figcaption>Analog Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/15-lomography.webp" target="_blank"><img class="lazy" data-src="./img/types/15-lomography.webp"></a>
+            <figcaption>Lomography</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/17-pinhole.webp" target="_blank"><img class="lazy" data-src="./img/types/17-pinhole.webp"></a>
+            <figcaption>Pinhole Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/02-wet-plate-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/02-wet-plate-photo.webp"></a>
+            <figcaption>Wet Plate Photo</figcaption>
+        </figure>
+    </div>
+    
+    <h4>Drawing, Painting, Print</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/03-pencil-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/03-pencil-drawing.webp"></a>
+            <figcaption>Pencil Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/04-pen-and-ink-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/04-pen-and-ink-drawing.webp"></a>
+            <figcaption>Pen and Ink Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/06-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/06-watercolor-painting.webp"></a>
+            <figcaption>Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/07-pen-and-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/07-pen-and-watercolor-painting.webp"></a>
+            <figcaption>Pen and Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/08-oil-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/08-oil-painting.webp"></a>
+            <figcaption>Oil Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/09-acrylic-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/09-acrylic-painting.webp"></a>
+            <figcaption>Acrylic Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/10-rough-charcoal-sketch.webp" target="_blank"><img class="lazy" data-src="./img/types/10-rough-charcoal-sketch.webp"></a>
+            <figcaption>Rough Charcoal Sketch</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/20-crayon-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/20-crayon-drawing.webp"></a>
+            <figcaption>Crayon Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/05-engraving-illustration.webp" target="_blank"><img class="lazy" data-src="./img/types/05-engraving-illustration.webp"></a>
+            <figcaption>Engraving Illustration</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/24-mezzotint-print.webp" target="_blank"><img class="lazy" data-src="./img/types/24-mezzotint-print.webp"></a>
+            <figcaption>Mezzotint Print</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/25-linocut-print.webp" target="_blank"><img class="lazy" data-src="./img/types/25-linocut-print.webp"></a>
+            <figcaption>Linocut Print</figcaption>
+        </figure>
+        </div>
+    
+    <h4>Digital, Other</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/16-comic-character.webp" target="_blank"><img class="lazy" data-src="./img/types/16-comic-character.webp"></a>
+            <figcaption>Comic Character</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/19-pixel-art.webp" target="_blank"><img class="lazy" data-src="./img/types/19-pixel-art.webp"></a>
+            <figcaption>Pixel Art</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/22-vector-graphic.webp" target="_blank"><img class="lazy" data-src="./img/types/22-vector-graphic.webp"></a>
+            <figcaption>Vector Graphic</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/11-3d-render.webp" target="_blank"><img class="lazy" data-src="./img/types/11-3d-render.webp"></a>
+            <figcaption>3D Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/12-lowpoly-render.webp" target="_blank"><img class="lazy" data-src="./img/types/12-lowpoly-render.webp"></a>
+            <figcaption>Low Poly Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/18-modelling-clay.webp" target="_blank"><img class="lazy" data-src="./img/types/18-modelling-clay.webp"></a>
+            <figcaption>Modelling Clay</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/21-embroidery-cross-stitch.webp" target="_blank"><img class="lazy" data-src="./img/types/21-embroidery-cross-stitch.webp"></a>
+            <figcaption>Embroidery Cross Stitch</figcaption>
+        </figure>
+    </div>
+    
+    <h3>Art History - Some Pointers</h3>
+    
+    <ul id="arthistory">
+        <li>
+            <h4>Renaissance (14<sup>th</sup>-16<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Leonardo da Vinci, Michelangelo Buonarroti, Raffaello Sanzio da Urbino, Sandro Botticelli</li>
+                <li>Medium: Oil on wood or canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Mannerism (16<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, El Greco, Benvenuto Cellini, Jacopo Pontormo, Parmigianino, Bronzino</li>
+                <li>Medium: Oil on canvas, sculpture, and architecture</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Baroque (17<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, Gian Lorenzo Bernini, Rembrandt van Rijn, Peter Paul Rubens</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Rococo (18<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Jean-Antoine Watteau, François Boucher, Jean-Honoré Fragonard</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Neoclassicism (18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Jacques-Louis David, Jean-Auguste-Dominique Ingres, Antonio Canova</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Romanticism (late 18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Joseph Mallord William Turner, Francisco de Goya y Lucientes, Eugène Delacroix, Caspar David Friedrich</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Realism (mid-19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Courbet, Honoré Daumier, Jean-François Millet</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Impressionism (late 19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Claude Monet, Pierre-Auguste Renoir, Edgar Degas, Mary Cassatt</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Symbolism (late 19<sup>th</sup> to early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Moreau, Edvard Munch, Odilon Redon, Pierre Puvis de Chavannes, Fernand Khnopff, Franz von Stuck</li>
+                <li>Medium: Oil on canvas, drawing, and printmaking</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Expressionism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Edvard Munch, Wassily Kandinsky, Ernst Ludwig Kirchner</li>
+                <li>Medium: Oil on canvas or woodcuts</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Cubism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Pablo Picasso, Georges Braque, Juan Gris</li>
+                <li>Medium: Oil on canvas or collage</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Futurism (1909-1916)</h4>
+            <ul>
+                <li>Famous Artists: Umberto Boccioni, Giacomo Balla, Gino Severini</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Dada (1916-1924)</h4>
+            <ul>
+                <li>Famous Artists: Marcel Duchamp, Man Ray, Hannah Höch, Jean Arp, Francis Picabia, Kurt Schwitters</li>
+                <li>Medium: Collage, assemblage, and performance</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Bauhaus (1919-1933)</h4>
+            <ul>
+                <li>Famous Artists: Walter Gropius, Ludwig Mies van der Rohe, Wassily Kandinsky, Paul Klee, Josef Albers</li>
+                <li>Medium: Architecture, furniture, and graphic design</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Surrealism (1920s-30s)</h4>
+            <ul>
+                <li>Famous Artists: Salvador Dalí, René Magritte, Max Ernst</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Abstract Expressionism (1940s-50s)</h4>
+            <ul>
+                <li>Famous Artists: Jackson Pollock, Mark Rothko, Willem de Kooning</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Pop Art (1950s-60s)</h4>
+            <ul>
+                <li>Famous Artists: Andy Warhol, Roy Lichtenstein, Richard Hamilton</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Minimalism (1960s-70s)</h4>
+            <ul>
+                <li>Famous Artists: Donald Judd, Dan Flavin, Sol LeWitt</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Postmodernism (1970s-90s)</h4>
+            <ul>
+                <li>Famous Artists: Cindy Sherman, Jeff Koons, Barbara Kruger</li>
+                <li>Medium: A wide range of media, including painting, sculpture, installation, and performance art</li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>
+
+<section id="info">
+
+    <h3>Image Metadata</h3>
+    
+    <div id="metadataboxes">
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Drop File Here</p>
+                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            </form>
+            <div id="gallery"></div>
+        </div>
+
+        <div id="allMetaData"></div>
+    </div>
+
+</section>
+
+<section id="about">
+
+    <h3>Image Generation for Styles</h3>
+    
+    <p>All images were generated with either the <a href="https://huggingface.co/XpucT/Deliberate">Deliberate v2</a> or the <a href="https://huggingface.co/Lykon/DreamShaper">DreamShaper 3.2</a> Checkpoint.<br>Sampler was DMP++ 2M Karras or DMP++ SDE Karras, depending on the better result.<br>Very rarely DDIM (less than 0.5&percnt;). Final resolution never smaller than 768px &times; 768px.</p>
+    <p>The prompt for the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#prompts-from-file-or-textbox">textbox</a> was:
+        <code>
+        --prompt style of ArtistName --negative_prompt nude, nsfw, frame, border, text<br>
+        --prompt style of ArtistName, portrait of a woman --negative_prompt same as above<br>
+        --prompt style of ArtistName, Henry C_____ --negative_prompt superman<br>
+        --prompt style of ArtistName, street --negative_prompt text, frame, border
+        </code>
+        While Deliberate has some NSFW Checkpoint mixed in and needs 'nsfw' in the negative prompt, DreamShaper likes manga a lot and frequently requires 'manga, anime' in the np.
+    </p>
+    <p><em>Why these exact prompts?</em></p>
+    <p>The first line conveys a broad, uninfluenced impression.</p>
+    <p>With 'portrait of a woman', you will get a wider range of portraits that are more in line with the artist's personal aesthetic.</p>
+    <p>For the third line: The actor Henry C. is currently well-known and has been well-trained into SD. You can also judge the dominance of a style if he is still rendered normally (weak artist style) or when his superhero costume appears.</p>
+    <p>The last line, 'street', will give you a good idea of how houses, people, and technical items (cars, bikes, etc.) appear.</p>
+
+    <h3>Useful Links</h3>
+    
+    <p>Links that helped me understand the technical side of Stable Diffusion (no affiliation):</p>
+    
+    <ul>
+        <li><a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki">Automatic111 Wiki</a></li>
+        <li><a href="https://stable-diffusion-art.com/tutorials/">Stable-Diffusion-Art.com - Tutorials</a></li>
+    </ul>
+    
+    <h3>Errors</h3>
+    
+    <p>All information has been collected with the utmost care, however, mistakes always happen. Location information is sometimes difficult when artists move very early in life, or the indication of the era, if the lifetime falls between two centuries.</p>
+
+    <h3>Credits</h3>
+    
+    <p>A BIG THANK YOU TO:</p>
+    <p><a href="https://github.com/verlok/vanilla-lazyload">Lazyload Script</a> from Verlok, Webfont is Google's <a href="https://fonts.google.com/specimen/Roboto">Roboto</a>, SVG Icons from <a href="https://github.com/ionic-team/ionicons">Ionicons</a>, MattiasW's <a href="https://github.com/mattiasw/ExifReader">ExifReader</a>, Code from Himuro-Majika's <a href="https://github.com/himuro-majika/Stable_Diffusion_image_metadata_viewer">Stable Diffusion image metadata viewer</a> Browser Extension</p>
+    <p>Stable Diffusion by <a href="https://ommer-lab.com/research/latent-diffusion-models/">LMU</a> and <a href="https://stability.ai/">stability.ai</a></p>
+
+</section>
+
+<footer>Created 2023 - Version 1.0.0 - <a href="https://github.com/SupaGruen/StableDiffusion-CheatSheet">GitHub</a></footer>
+
+<span id="snackbar">Copied to Clipboard</span>
+
+</body>
+</html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stable Diffusion 1.5 - Cheat Sheet</title>
+<link href="./style.css" rel="stylesheet">
+<script src="./lazyload.min.js"></script>
+<script src="./exif-reader.js"></script>
+<script src="./data.js"></script>
+<script src="./spaghetticode.js"></script>
+</head>
+<body>
+
+<header>
+
+    <h1>Stable Diffusion 1.5 - Cheat Sheet</h1>
+    
+    <nav>
+        <ul>
+            <li><a class="mbut" data-page="styles" href="#">Styles</a></li>
+            <li><a class="mbut" data-page="helpers" href="#">Notes</a></li>
+            <li><a class="mbut" data-page="info" href="#">Metadata</a></li>
+            <li><a class="mbut" data-page="about" href="#">About</a></li>
+        </ul>
+        
+        <div id="suche">
+            <a href="#" class="filterbut">Filter</a>
+            <label for="searchbox" class="is-size-5">Search</label>
+            <input type="text" id="searchbox" placeholder="Search">
+            <a href="#" id="clearsearch">&times;</a>
+        </div>
+    </nav>
+    
+    <div id="allcats"></div>
+    
+</header>
+
+<section id="styles">
+    <h3>Artist Inspired Styles</h3>
+    <p>A collection of what Stable Diffusion imagines these artists' styles look like.</p><p>While having an overview is helpful, keep in mind that these styles only imitate certain aspects of the artist's work (color, medium, location, etc.). They are limited by the rather superficial knowledge of SD, but can probably give you a good base for your own creations.</p>
+    <div id="allthestyles"></div>
+</section>
+
+<section id="helpers">
+
+    <h3>Image Dimensions</h3>
+    
+    <p>Stable Diffusion was trained with base dimensions of 512 pixels (SD 1.5) and 768 pixels (SD 2/2.1).<br>While it's not necessary to stick to multiples of 128, it's a good place to start.</p>
+    <div class="numberline"><span>128</span><span>256</span><span>384</span><span class="highlight">512</span><span>640</span><span class="highlight">768</span><span>896</span><span>1024</span></div>
+
+    <p><strong>Some of the common ratios in SD dimensions:</strong></p>
+    <table id="dimensions">
+        <tr>
+            <td>Square</td>
+            <td>1:1</td>
+            <td id="ir1b1">512 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>2:3</td>
+            <td id="ir2b3">512 &times; 768</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>3:4</td>
+            <td id="ir3b4">512 &times; 683</td>
+        </tr>
+        <tr>
+            <td>Social Media</td>
+            <td>4:5</td>
+            <td id="ir4b5">512 &times; 640</td>
+        </tr>
+        <tr>
+            <td>Standard Monitor</td>
+            <td>16:9</td>
+            <td id="ir16b9">910 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
+            <td>16:10</td>
+            <td id="ir16b10">819 &times; 512</td>
+        </tr>
+        <tr>
+            <td>UltraWide Monitor</td>
+            <td>21:9</td>
+            <td id="ir21b9">1195 &times; 512</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="nobgr"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label for="ratiobox">Base size</label></td>
+            <td class="nobgr"><input type="search" id="ratiobox" placeholder="Base Size" value="512"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h3>Prompt Examples - Art Media</h3>
+
+    <h4>Photo</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/00-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/00-photo.webp"></a>
+            <figcaption>Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/01-analog-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/01-analog-photo.webp"></a>
+            <figcaption>Analog Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/15-lomography.webp" target="_blank"><img class="lazy" data-src="./img/types/15-lomography.webp"></a>
+            <figcaption>Lomography</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/17-pinhole.webp" target="_blank"><img class="lazy" data-src="./img/types/17-pinhole.webp"></a>
+            <figcaption>Pinhole Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/02-wet-plate-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/02-wet-plate-photo.webp"></a>
+            <figcaption>Wet Plate Photo</figcaption>
+        </figure>
+    </div>
+    
+    <h4>Drawing, Painting, Print</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/03-pencil-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/03-pencil-drawing.webp"></a>
+            <figcaption>Pencil Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/04-pen-and-ink-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/04-pen-and-ink-drawing.webp"></a>
+            <figcaption>Pen and Ink Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/06-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/06-watercolor-painting.webp"></a>
+            <figcaption>Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/07-pen-and-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/07-pen-and-watercolor-painting.webp"></a>
+            <figcaption>Pen and Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/08-oil-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/08-oil-painting.webp"></a>
+            <figcaption>Oil Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/09-acrylic-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/09-acrylic-painting.webp"></a>
+            <figcaption>Acrylic Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/10-rough-charcoal-sketch.webp" target="_blank"><img class="lazy" data-src="./img/types/10-rough-charcoal-sketch.webp"></a>
+            <figcaption>Rough Charcoal Sketch</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/20-crayon-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/20-crayon-drawing.webp"></a>
+            <figcaption>Crayon Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/05-engraving-illustration.webp" target="_blank"><img class="lazy" data-src="./img/types/05-engraving-illustration.webp"></a>
+            <figcaption>Engraving Illustration</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/24-mezzotint-print.webp" target="_blank"><img class="lazy" data-src="./img/types/24-mezzotint-print.webp"></a>
+            <figcaption>Mezzotint Print</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/25-linocut-print.webp" target="_blank"><img class="lazy" data-src="./img/types/25-linocut-print.webp"></a>
+            <figcaption>Linocut Print</figcaption>
+        </figure>
+        </div>
+    
+    <h4>Digital, Other</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/16-comic-character.webp" target="_blank"><img class="lazy" data-src="./img/types/16-comic-character.webp"></a>
+            <figcaption>Comic Character</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/19-pixel-art.webp" target="_blank"><img class="lazy" data-src="./img/types/19-pixel-art.webp"></a>
+            <figcaption>Pixel Art</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/22-vector-graphic.webp" target="_blank"><img class="lazy" data-src="./img/types/22-vector-graphic.webp"></a>
+            <figcaption>Vector Graphic</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/11-3d-render.webp" target="_blank"><img class="lazy" data-src="./img/types/11-3d-render.webp"></a>
+            <figcaption>3D Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/12-lowpoly-render.webp" target="_blank"><img class="lazy" data-src="./img/types/12-lowpoly-render.webp"></a>
+            <figcaption>Low Poly Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/18-modelling-clay.webp" target="_blank"><img class="lazy" data-src="./img/types/18-modelling-clay.webp"></a>
+            <figcaption>Modelling Clay</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/21-embroidery-cross-stitch.webp" target="_blank"><img class="lazy" data-src="./img/types/21-embroidery-cross-stitch.webp"></a>
+            <figcaption>Embroidery Cross Stitch</figcaption>
+        </figure>
+    </div>
+    
+    <h3>Art History - Some Pointers</h3>
+    
+    <ul id="arthistory">
+        <li>
+            <h4>Renaissance (14<sup>th</sup>-16<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Leonardo da Vinci, Michelangelo Buonarroti, Raffaello Sanzio da Urbino, Sandro Botticelli</li>
+                <li>Medium: Oil on wood or canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Mannerism (16<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, El Greco, Benvenuto Cellini, Jacopo Pontormo, Parmigianino, Bronzino</li>
+                <li>Medium: Oil on canvas, sculpture, and architecture</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Baroque (17<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, Gian Lorenzo Bernini, Rembrandt van Rijn, Peter Paul Rubens</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Rococo (18<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Jean-Antoine Watteau, François Boucher, Jean-Honoré Fragonard</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Neoclassicism (18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Jacques-Louis David, Jean-Auguste-Dominique Ingres, Antonio Canova</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Romanticism (late 18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Joseph Mallord William Turner, Francisco de Goya y Lucientes, Eugène Delacroix, Caspar David Friedrich</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Realism (mid-19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Courbet, Honoré Daumier, Jean-François Millet</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Impressionism (late 19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Claude Monet, Pierre-Auguste Renoir, Edgar Degas, Mary Cassatt</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Symbolism (late 19<sup>th</sup> to early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Moreau, Edvard Munch, Odilon Redon, Pierre Puvis de Chavannes, Fernand Khnopff, Franz von Stuck</li>
+                <li>Medium: Oil on canvas, drawing, and printmaking</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Expressionism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Edvard Munch, Wassily Kandinsky, Ernst Ludwig Kirchner</li>
+                <li>Medium: Oil on canvas or woodcuts</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Cubism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Pablo Picasso, Georges Braque, Juan Gris</li>
+                <li>Medium: Oil on canvas or collage</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Futurism (1909-1916)</h4>
+            <ul>
+                <li>Famous Artists: Umberto Boccioni, Giacomo Balla, Gino Severini</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Dada (1916-1924)</h4>
+            <ul>
+                <li>Famous Artists: Marcel Duchamp, Man Ray, Hannah Höch, Jean Arp, Francis Picabia, Kurt Schwitters</li>
+                <li>Medium: Collage, assemblage, and performance</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Bauhaus (1919-1933)</h4>
+            <ul>
+                <li>Famous Artists: Walter Gropius, Ludwig Mies van der Rohe, Wassily Kandinsky, Paul Klee, Josef Albers</li>
+                <li>Medium: Architecture, furniture, and graphic design</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Surrealism (1920s-30s)</h4>
+            <ul>
+                <li>Famous Artists: Salvador Dalí, René Magritte, Max Ernst</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Abstract Expressionism (1940s-50s)</h4>
+            <ul>
+                <li>Famous Artists: Jackson Pollock, Mark Rothko, Willem de Kooning</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Pop Art (1950s-60s)</h4>
+            <ul>
+                <li>Famous Artists: Andy Warhol, Roy Lichtenstein, Richard Hamilton</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Minimalism (1960s-70s)</h4>
+            <ul>
+                <li>Famous Artists: Donald Judd, Dan Flavin, Sol LeWitt</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Postmodernism (1970s-90s)</h4>
+            <ul>
+                <li>Famous Artists: Cindy Sherman, Jeff Koons, Barbara Kruger</li>
+                <li>Medium: A wide range of media, including painting, sculpture, installation, and performance art</li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>
+
+<section id="info">
+
+    <h3>Image Metadata</h3>
+    
+    <div id="metadataboxes">
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Drop File Here</p>
+                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            </form>
+            <div id="gallery"></div>
+        </div>
+
+        <div id="allMetaData"></div>
+    </div>
+
+</section>
+
+<section id="about">
+
+    <h3>Image Generation for Styles</h3>
+    
+    <p>All images were generated with either the <a href="https://huggingface.co/XpucT/Deliberate">Deliberate v2</a> or the <a href="https://huggingface.co/Lykon/DreamShaper">DreamShaper 3.2</a> Checkpoint.<br>Sampler was DMP++ 2M Karras or DMP++ SDE Karras, depending on the better result.<br>Very rarely DDIM (less than 0.5&percnt;). Final resolution never smaller than 768px &times; 768px.</p>
+    <p>The prompt for the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#prompts-from-file-or-textbox">textbox</a> was:
+        <code>
+        --prompt style of ArtistName --negative_prompt nude, nsfw, frame, border, text<br>
+        --prompt style of ArtistName, portrait of a woman --negative_prompt same as above<br>
+        --prompt style of ArtistName, Henry C_____ --negative_prompt superman<br>
+        --prompt style of ArtistName, street --negative_prompt text, frame, border
+        </code>
+        While Deliberate has some NSFW Checkpoint mixed in and needs 'nsfw' in the negative prompt, DreamShaper likes manga a lot and frequently requires 'manga, anime' in the np.
+    </p>
+    <p><em>Why these exact prompts?</em></p>
+    <p>The first line conveys a broad, uninfluenced impression.</p>
+    <p>With 'portrait of a woman', you will get a wider range of portraits that are more in line with the artist's personal aesthetic.</p>
+    <p>For the third line: The actor Henry C. is currently well-known and has been well-trained into SD. You can also judge the dominance of a style if he is still rendered normally (weak artist style) or when his superhero costume appears.</p>
+    <p>The last line, 'street', will give you a good idea of how houses, people, and technical items (cars, bikes, etc.) appear.</p>
+
+    <h3>Useful Links</h3>
+    
+    <p>Links that helped me understand the technical side of Stable Diffusion (no affiliation):</p>
+    
+    <ul>
+        <li><a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki">Automatic111 Wiki</a></li>
+        <li><a href="https://stable-diffusion-art.com/tutorials/">Stable-Diffusion-Art.com - Tutorials</a></li>
+    </ul>
+    
+    <h3>Errors</h3>
+    
+    <p>All information has been collected with the utmost care, however, mistakes always happen. Location information is sometimes difficult when artists move very early in life, or the indication of the era, if the lifetime falls between two centuries.</p>
+
+    <h3>Credits</h3>
+    
+    <p>A BIG THANK YOU TO:</p>
+    <p><a href="https://github.com/verlok/vanilla-lazyload">Lazyload Script</a> from Verlok, Webfont is Google's <a href="https://fonts.google.com/specimen/Roboto">Roboto</a>, SVG Icons from <a href="https://github.com/ionic-team/ionicons">Ionicons</a>, MattiasW's <a href="https://github.com/mattiasw/ExifReader">ExifReader</a>, Code from Himuro-Majika's <a href="https://github.com/himuro-majika/Stable_Diffusion_image_metadata_viewer">Stable Diffusion image metadata viewer</a> Browser Extension</p>
+    <p>Stable Diffusion by <a href="https://ommer-lab.com/research/latent-diffusion-models/">LMU</a> and <a href="https://stability.ai/">stability.ai</a></p>
+
+</section>
+
+<footer>Created 2023 - Version 1.0.0 - <a href="https://github.com/SupaGruen/StableDiffusion-CheatSheet">GitHub</a></footer>
+
+<span id="snackbar">Copied to Clipboard</span>
+
+</body>
+</html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stable Diffusion 1.5 - Cheat Sheet</title>
+<link href="./style.css" rel="stylesheet">
+<script src="./lazyload.min.js"></script>
+<script src="./exif-reader.js"></script>
+<script src="./data.js"></script>
+<script src="./spaghetticode.js"></script>
+</head>
+<body>
+
+<header>
+
+    <h1>Stable Diffusion 1.5 - Cheat Sheet</h1>
+    
+    <nav>
+        <ul>
+            <li><a class="mbut" data-page="styles" href="#">Styles</a></li>
+            <li><a class="mbut" data-page="helpers" href="#">Notes</a></li>
+            <li><a class="mbut" data-page="info" href="#">Metadata</a></li>
+            <li><a class="mbut" data-page="about" href="#">About</a></li>
+        </ul>
+        
+        <div id="suche">
+            <a href="#" class="filterbut">Filter</a>
+            <label for="searchbox" class="is-size-5">Search</label>
+            <input type="text" id="searchbox" placeholder="Search">
+            <a href="#" id="clearsearch">&times;</a>
+        </div>
+    </nav>
+    
+    <div id="allcats"></div>
+    
+</header>
+
+<section id="styles">
+    <h3>Artist Inspired Styles</h3>
+    <p>A collection of what Stable Diffusion imagines these artists' styles look like.</p><p>While having an overview is helpful, keep in mind that these styles only imitate certain aspects of the artist's work (color, medium, location, etc.). They are limited by the rather superficial knowledge of SD, but can probably give you a good base for your own creations.</p>
+    <div id="allthestyles"></div>
+</section>
+
+<section id="helpers">
+
+    <h3>Image Dimensions</h3>
+    
+    <p>Stable Diffusion was trained with base dimensions of 512 pixels (SD 1.5) and 768 pixels (SD 2/2.1).<br>While it's not necessary to stick to multiples of 128, it's a good place to start.</p>
+    <div class="numberline"><span>128</span><span>256</span><span>384</span><span class="highlight">512</span><span>640</span><span class="highlight">768</span><span>896</span><span>1024</span></div>
+
+    <p><strong>Some of the common ratios in SD dimensions:</strong></p>
+    <table id="dimensions">
+        <tr>
+            <td>Square</td>
+            <td>1:1</td>
+            <td id="ir1b1">512 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>2:3</td>
+            <td id="ir2b3">512 &times; 768</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>3:4</td>
+            <td id="ir3b4">512 &times; 683</td>
+        </tr>
+        <tr>
+            <td>Social Media</td>
+            <td>4:5</td>
+            <td id="ir4b5">512 &times; 640</td>
+        </tr>
+        <tr>
+            <td>Standard Monitor</td>
+            <td>16:9</td>
+            <td id="ir16b9">910 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
+            <td>16:10</td>
+            <td id="ir16b10">819 &times; 512</td>
+        </tr>
+        <tr>
+            <td>UltraWide Monitor</td>
+            <td>21:9</td>
+            <td id="ir21b9">1195 &times; 512</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="nobgr"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label for="ratiobox">Base size</label></td>
+            <td class="nobgr"><input type="search" id="ratiobox" placeholder="Base Size" value="512"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h3>Prompt Examples - Art Media</h3>
+
+    <h4>Photo</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/00-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/00-photo.webp"></a>
+            <figcaption>Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/01-analog-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/01-analog-photo.webp"></a>
+            <figcaption>Analog Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/15-lomography.webp" target="_blank"><img class="lazy" data-src="./img/types/15-lomography.webp"></a>
+            <figcaption>Lomography</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/17-pinhole.webp" target="_blank"><img class="lazy" data-src="./img/types/17-pinhole.webp"></a>
+            <figcaption>Pinhole Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/02-wet-plate-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/02-wet-plate-photo.webp"></a>
+            <figcaption>Wet Plate Photo</figcaption>
+        </figure>
+    </div>
+    
+    <h4>Drawing, Painting, Print</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/03-pencil-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/03-pencil-drawing.webp"></a>
+            <figcaption>Pencil Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/04-pen-and-ink-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/04-pen-and-ink-drawing.webp"></a>
+            <figcaption>Pen and Ink Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/06-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/06-watercolor-painting.webp"></a>
+            <figcaption>Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/07-pen-and-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/07-pen-and-watercolor-painting.webp"></a>
+            <figcaption>Pen and Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/08-oil-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/08-oil-painting.webp"></a>
+            <figcaption>Oil Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/09-acrylic-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/09-acrylic-painting.webp"></a>
+            <figcaption>Acrylic Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/10-rough-charcoal-sketch.webp" target="_blank"><img class="lazy" data-src="./img/types/10-rough-charcoal-sketch.webp"></a>
+            <figcaption>Rough Charcoal Sketch</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/20-crayon-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/20-crayon-drawing.webp"></a>
+            <figcaption>Crayon Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/05-engraving-illustration.webp" target="_blank"><img class="lazy" data-src="./img/types/05-engraving-illustration.webp"></a>
+            <figcaption>Engraving Illustration</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/24-mezzotint-print.webp" target="_blank"><img class="lazy" data-src="./img/types/24-mezzotint-print.webp"></a>
+            <figcaption>Mezzotint Print</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/25-linocut-print.webp" target="_blank"><img class="lazy" data-src="./img/types/25-linocut-print.webp"></a>
+            <figcaption>Linocut Print</figcaption>
+        </figure>
+        </div>
+    
+    <h4>Digital, Other</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/16-comic-character.webp" target="_blank"><img class="lazy" data-src="./img/types/16-comic-character.webp"></a>
+            <figcaption>Comic Character</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/19-pixel-art.webp" target="_blank"><img class="lazy" data-src="./img/types/19-pixel-art.webp"></a>
+            <figcaption>Pixel Art</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/22-vector-graphic.webp" target="_blank"><img class="lazy" data-src="./img/types/22-vector-graphic.webp"></a>
+            <figcaption>Vector Graphic</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/11-3d-render.webp" target="_blank"><img class="lazy" data-src="./img/types/11-3d-render.webp"></a>
+            <figcaption>3D Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/12-lowpoly-render.webp" target="_blank"><img class="lazy" data-src="./img/types/12-lowpoly-render.webp"></a>
+            <figcaption>Low Poly Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/18-modelling-clay.webp" target="_blank"><img class="lazy" data-src="./img/types/18-modelling-clay.webp"></a>
+            <figcaption>Modelling Clay</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/21-embroidery-cross-stitch.webp" target="_blank"><img class="lazy" data-src="./img/types/21-embroidery-cross-stitch.webp"></a>
+            <figcaption>Embroidery Cross Stitch</figcaption>
+        </figure>
+    </div>
+    
+    <h3>Art History - Some Pointers</h3>
+    
+    <ul id="arthistory">
+        <li>
+            <h4>Renaissance (14<sup>th</sup>-16<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Leonardo da Vinci, Michelangelo Buonarroti, Raffaello Sanzio da Urbino, Sandro Botticelli</li>
+                <li>Medium: Oil on wood or canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Mannerism (16<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, El Greco, Benvenuto Cellini, Jacopo Pontormo, Parmigianino, Bronzino</li>
+                <li>Medium: Oil on canvas, sculpture, and architecture</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Baroque (17<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, Gian Lorenzo Bernini, Rembrandt van Rijn, Peter Paul Rubens</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Rococo (18<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Jean-Antoine Watteau, François Boucher, Jean-Honoré Fragonard</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Neoclassicism (18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Jacques-Louis David, Jean-Auguste-Dominique Ingres, Antonio Canova</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Romanticism (late 18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Joseph Mallord William Turner, Francisco de Goya y Lucientes, Eugène Delacroix, Caspar David Friedrich</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Realism (mid-19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Courbet, Honoré Daumier, Jean-François Millet</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Impressionism (late 19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Claude Monet, Pierre-Auguste Renoir, Edgar Degas, Mary Cassatt</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Symbolism (late 19<sup>th</sup> to early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Moreau, Edvard Munch, Odilon Redon, Pierre Puvis de Chavannes, Fernand Khnopff, Franz von Stuck</li>
+                <li>Medium: Oil on canvas, drawing, and printmaking</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Expressionism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Edvard Munch, Wassily Kandinsky, Ernst Ludwig Kirchner</li>
+                <li>Medium: Oil on canvas or woodcuts</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Cubism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Pablo Picasso, Georges Braque, Juan Gris</li>
+                <li>Medium: Oil on canvas or collage</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Futurism (1909-1916)</h4>
+            <ul>
+                <li>Famous Artists: Umberto Boccioni, Giacomo Balla, Gino Severini</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Dada (1916-1924)</h4>
+            <ul>
+                <li>Famous Artists: Marcel Duchamp, Man Ray, Hannah Höch, Jean Arp, Francis Picabia, Kurt Schwitters</li>
+                <li>Medium: Collage, assemblage, and performance</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Bauhaus (1919-1933)</h4>
+            <ul>
+                <li>Famous Artists: Walter Gropius, Ludwig Mies van der Rohe, Wassily Kandinsky, Paul Klee, Josef Albers</li>
+                <li>Medium: Architecture, furniture, and graphic design</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Surrealism (1920s-30s)</h4>
+            <ul>
+                <li>Famous Artists: Salvador Dalí, René Magritte, Max Ernst</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Abstract Expressionism (1940s-50s)</h4>
+            <ul>
+                <li>Famous Artists: Jackson Pollock, Mark Rothko, Willem de Kooning</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Pop Art (1950s-60s)</h4>
+            <ul>
+                <li>Famous Artists: Andy Warhol, Roy Lichtenstein, Richard Hamilton</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Minimalism (1960s-70s)</h4>
+            <ul>
+                <li>Famous Artists: Donald Judd, Dan Flavin, Sol LeWitt</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Postmodernism (1970s-90s)</h4>
+            <ul>
+                <li>Famous Artists: Cindy Sherman, Jeff Koons, Barbara Kruger</li>
+                <li>Medium: A wide range of media, including painting, sculpture, installation, and performance art</li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>
+
+<section id="info">
+
+    <h3>Image Metadata</h3>
+    
+    <div id="metadataboxes">
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Drop File Here</p>
+                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            </form>
+            <div id="gallery"></div>
+        </div>
+
+        <div id="allMetaData"></div>
+    </div>
+
+</section>
+
+<section id="about">
+
+    <h3>Image Generation for Styles</h3>
+    
+    <p>All images were generated with either the <a href="https://huggingface.co/XpucT/Deliberate">Deliberate v2</a> or the <a href="https://huggingface.co/Lykon/DreamShaper">DreamShaper 3.2</a> Checkpoint.<br>Sampler was DMP++ 2M Karras or DMP++ SDE Karras, depending on the better result.<br>Very rarely DDIM (less than 0.5&percnt;). Final resolution never smaller than 768px &times; 768px.</p>
+    <p>The prompt for the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#prompts-from-file-or-textbox">textbox</a> was:
+        <code>
+        --prompt style of ArtistName --negative_prompt nude, nsfw, frame, border, text<br>
+        --prompt style of ArtistName, portrait of a woman --negative_prompt same as above<br>
+        --prompt style of ArtistName, Henry C_____ --negative_prompt superman<br>
+        --prompt style of ArtistName, street --negative_prompt text, frame, border
+        </code>
+        While Deliberate has some NSFW Checkpoint mixed in and needs 'nsfw' in the negative prompt, DreamShaper likes manga a lot and frequently requires 'manga, anime' in the np.
+    </p>
+    <p><em>Why these exact prompts?</em></p>
+    <p>The first line conveys a broad, uninfluenced impression.</p>
+    <p>With 'portrait of a woman', you will get a wider range of portraits that are more in line with the artist's personal aesthetic.</p>
+    <p>For the third line: The actor Henry C. is currently well-known and has been well-trained into SD. You can also judge the dominance of a style if he is still rendered normally (weak artist style) or when his superhero costume appears.</p>
+    <p>The last line, 'street', will give you a good idea of how houses, people, and technical items (cars, bikes, etc.) appear.</p>
+
+    <h3>Useful Links</h3>
+    
+    <p>Links that helped me understand the technical side of Stable Diffusion (no affiliation):</p>
+    
+    <ul>
+        <li><a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki">Automatic111 Wiki</a></li>
+        <li><a href="https://stable-diffusion-art.com/tutorials/">Stable-Diffusion-Art.com - Tutorials</a></li>
+    </ul>
+    
+    <h3>Errors</h3>
+    
+    <p>All information has been collected with the utmost care, however, mistakes always happen. Location information is sometimes difficult when artists move very early in life, or the indication of the era, if the lifetime falls between two centuries.</p>
+
+    <h3>Credits</h3>
+    
+    <p>A BIG THANK YOU TO:</p>
+    <p><a href="https://github.com/verlok/vanilla-lazyload">Lazyload Script</a> from Verlok, Webfont is Google's <a href="https://fonts.google.com/specimen/Roboto">Roboto</a>, SVG Icons from <a href="https://github.com/ionic-team/ionicons">Ionicons</a>, MattiasW's <a href="https://github.com/mattiasw/ExifReader">ExifReader</a>, Code from Himuro-Majika's <a href="https://github.com/himuro-majika/Stable_Diffusion_image_metadata_viewer">Stable Diffusion image metadata viewer</a> Browser Extension</p>
+    <p>Stable Diffusion by <a href="https://ommer-lab.com/research/latent-diffusion-models/">LMU</a> and <a href="https://stability.ai/">stability.ai</a></p>
+
+</section>
+
+<footer>Created 2023 - Version 1.0.0 - <a href="https://github.com/SupaGruen/StableDiffusion-CheatSheet">GitHub</a></footer>
+
+<span id="snackbar">Copied to Clipboard</span>
+
+</body>
+</html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stable Diffusion 1.5 - Cheat Sheet</title>
+<link href="./style.css" rel="stylesheet">
+<script src="./lazyload.min.js"></script>
+<script src="./exif-reader.js"></script>
+<script src="./data.js"></script>
+<script src="./spaghetticode.js"></script>
+</head>
+<body>
+
+<header>
+
+    <h1>Stable Diffusion 1.5 - Cheat Sheet</h1>
+    
+    <nav>
+        <ul>
+            <li><a class="mbut" data-page="styles" href="#">Styles</a></li>
+            <li><a class="mbut" data-page="helpers" href="#">Notes</a></li>
+            <li><a class="mbut" data-page="info" href="#">Metadata</a></li>
+            <li><a class="mbut" data-page="about" href="#">About</a></li>
+        </ul>
+        
+        <div id="suche">
+            <a href="#" class="filterbut">Filter</a>
+            <label for="searchbox" class="is-size-5">Search</label>
+            <input type="text" id="searchbox" placeholder="Search">
+            <a href="#" id="clearsearch">&times;</a>
+        </div>
+    </nav>
+    
+    <div id="allcats"></div>
+    
+</header>
+
+<section id="styles">
+    <h3>Artist Inspired Styles</h3>
+    <p>A collection of what Stable Diffusion imagines these artists' styles look like.</p><p>While having an overview is helpful, keep in mind that these styles only imitate certain aspects of the artist's work (color, medium, location, etc.). They are limited by the rather superficial knowledge of SD, but can probably give you a good base for your own creations.</p>
+    <div id="allthestyles"></div>
+</section>
+
+<section id="helpers">
+
+    <h3>Image Dimensions</h3>
+    
+    <p>Stable Diffusion was trained with base dimensions of 512 pixels (SD 1.5) and 768 pixels (SD 2/2.1).<br>While it's not necessary to stick to multiples of 128, it's a good place to start.</p>
+    <div class="numberline"><span>128</span><span>256</span><span>384</span><span class="highlight">512</span><span>640</span><span class="highlight">768</span><span>896</span><span>1024</span></div>
+
+    <p><strong>Some of the common ratios in SD dimensions:</strong></p>
+    <table id="dimensions">
+        <tr>
+            <td>Square</td>
+            <td>1:1</td>
+            <td id="ir1b1">512 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>2:3</td>
+            <td id="ir2b3">512 &times; 768</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>3:4</td>
+            <td id="ir3b4">512 &times; 683</td>
+        </tr>
+        <tr>
+            <td>Social Media</td>
+            <td>4:5</td>
+            <td id="ir4b5">512 &times; 640</td>
+        </tr>
+        <tr>
+            <td>Standard Monitor</td>
+            <td>16:9</td>
+            <td id="ir16b9">910 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
+            <td>16:10</td>
+            <td id="ir16b10">819 &times; 512</td>
+        </tr>
+        <tr>
+            <td>UltraWide Monitor</td>
+            <td>21:9</td>
+            <td id="ir21b9">1195 &times; 512</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="nobgr"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label for="ratiobox">Base size</label></td>
+            <td class="nobgr"><input type="search" id="ratiobox" placeholder="Base Size" value="512"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h3>Prompt Examples - Art Media</h3>
+
+    <h4>Photo</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/00-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/00-photo.webp"></a>
+            <figcaption>Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/01-analog-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/01-analog-photo.webp"></a>
+            <figcaption>Analog Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/15-lomography.webp" target="_blank"><img class="lazy" data-src="./img/types/15-lomography.webp"></a>
+            <figcaption>Lomography</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/17-pinhole.webp" target="_blank"><img class="lazy" data-src="./img/types/17-pinhole.webp"></a>
+            <figcaption>Pinhole Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/02-wet-plate-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/02-wet-plate-photo.webp"></a>
+            <figcaption>Wet Plate Photo</figcaption>
+        </figure>
+    </div>
+    
+    <h4>Drawing, Painting, Print</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/03-pencil-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/03-pencil-drawing.webp"></a>
+            <figcaption>Pencil Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/04-pen-and-ink-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/04-pen-and-ink-drawing.webp"></a>
+            <figcaption>Pen and Ink Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/06-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/06-watercolor-painting.webp"></a>
+            <figcaption>Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/07-pen-and-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/07-pen-and-watercolor-painting.webp"></a>
+            <figcaption>Pen and Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/08-oil-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/08-oil-painting.webp"></a>
+            <figcaption>Oil Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/09-acrylic-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/09-acrylic-painting.webp"></a>
+            <figcaption>Acrylic Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/10-rough-charcoal-sketch.webp" target="_blank"><img class="lazy" data-src="./img/types/10-rough-charcoal-sketch.webp"></a>
+            <figcaption>Rough Charcoal Sketch</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/20-crayon-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/20-crayon-drawing.webp"></a>
+            <figcaption>Crayon Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/05-engraving-illustration.webp" target="_blank"><img class="lazy" data-src="./img/types/05-engraving-illustration.webp"></a>
+            <figcaption>Engraving Illustration</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/24-mezzotint-print.webp" target="_blank"><img class="lazy" data-src="./img/types/24-mezzotint-print.webp"></a>
+            <figcaption>Mezzotint Print</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/25-linocut-print.webp" target="_blank"><img class="lazy" data-src="./img/types/25-linocut-print.webp"></a>
+            <figcaption>Linocut Print</figcaption>
+        </figure>
+        </div>
+    
+    <h4>Digital, Other</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/16-comic-character.webp" target="_blank"><img class="lazy" data-src="./img/types/16-comic-character.webp"></a>
+            <figcaption>Comic Character</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/19-pixel-art.webp" target="_blank"><img class="lazy" data-src="./img/types/19-pixel-art.webp"></a>
+            <figcaption>Pixel Art</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/22-vector-graphic.webp" target="_blank"><img class="lazy" data-src="./img/types/22-vector-graphic.webp"></a>
+            <figcaption>Vector Graphic</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/11-3d-render.webp" target="_blank"><img class="lazy" data-src="./img/types/11-3d-render.webp"></a>
+            <figcaption>3D Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/12-lowpoly-render.webp" target="_blank"><img class="lazy" data-src="./img/types/12-lowpoly-render.webp"></a>
+            <figcaption>Low Poly Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/18-modelling-clay.webp" target="_blank"><img class="lazy" data-src="./img/types/18-modelling-clay.webp"></a>
+            <figcaption>Modelling Clay</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/21-embroidery-cross-stitch.webp" target="_blank"><img class="lazy" data-src="./img/types/21-embroidery-cross-stitch.webp"></a>
+            <figcaption>Embroidery Cross Stitch</figcaption>
+        </figure>
+    </div>
+    
+    <h3>Art History - Some Pointers</h3>
+    
+    <ul id="arthistory">
+        <li>
+            <h4>Renaissance (14<sup>th</sup>-16<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Leonardo da Vinci, Michelangelo Buonarroti, Raffaello Sanzio da Urbino, Sandro Botticelli</li>
+                <li>Medium: Oil on wood or canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Mannerism (16<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, El Greco, Benvenuto Cellini, Jacopo Pontormo, Parmigianino, Bronzino</li>
+                <li>Medium: Oil on canvas, sculpture, and architecture</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Baroque (17<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, Gian Lorenzo Bernini, Rembrandt van Rijn, Peter Paul Rubens</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Rococo (18<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Jean-Antoine Watteau, François Boucher, Jean-Honoré Fragonard</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Neoclassicism (18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Jacques-Louis David, Jean-Auguste-Dominique Ingres, Antonio Canova</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Romanticism (late 18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Joseph Mallord William Turner, Francisco de Goya y Lucientes, Eugène Delacroix, Caspar David Friedrich</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Realism (mid-19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Courbet, Honoré Daumier, Jean-François Millet</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Impressionism (late 19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Claude Monet, Pierre-Auguste Renoir, Edgar Degas, Mary Cassatt</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Symbolism (late 19<sup>th</sup> to early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Moreau, Edvard Munch, Odilon Redon, Pierre Puvis de Chavannes, Fernand Khnopff, Franz von Stuck</li>
+                <li>Medium: Oil on canvas, drawing, and printmaking</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Expressionism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Edvard Munch, Wassily Kandinsky, Ernst Ludwig Kirchner</li>
+                <li>Medium: Oil on canvas or woodcuts</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Cubism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Pablo Picasso, Georges Braque, Juan Gris</li>
+                <li>Medium: Oil on canvas or collage</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Futurism (1909-1916)</h4>
+            <ul>
+                <li>Famous Artists: Umberto Boccioni, Giacomo Balla, Gino Severini</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Dada (1916-1924)</h4>
+            <ul>
+                <li>Famous Artists: Marcel Duchamp, Man Ray, Hannah Höch, Jean Arp, Francis Picabia, Kurt Schwitters</li>
+                <li>Medium: Collage, assemblage, and performance</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Bauhaus (1919-1933)</h4>
+            <ul>
+                <li>Famous Artists: Walter Gropius, Ludwig Mies van der Rohe, Wassily Kandinsky, Paul Klee, Josef Albers</li>
+                <li>Medium: Architecture, furniture, and graphic design</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Surrealism (1920s-30s)</h4>
+            <ul>
+                <li>Famous Artists: Salvador Dalí, René Magritte, Max Ernst</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Abstract Expressionism (1940s-50s)</h4>
+            <ul>
+                <li>Famous Artists: Jackson Pollock, Mark Rothko, Willem de Kooning</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Pop Art (1950s-60s)</h4>
+            <ul>
+                <li>Famous Artists: Andy Warhol, Roy Lichtenstein, Richard Hamilton</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Minimalism (1960s-70s)</h4>
+            <ul>
+                <li>Famous Artists: Donald Judd, Dan Flavin, Sol LeWitt</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Postmodernism (1970s-90s)</h4>
+            <ul>
+                <li>Famous Artists: Cindy Sherman, Jeff Koons, Barbara Kruger</li>
+                <li>Medium: A wide range of media, including painting, sculpture, installation, and performance art</li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>
+
+<section id="info">
+
+    <h3>Image Metadata</h3>
+    
+    <div id="metadataboxes">
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Drop File Here</p>
+                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            </form>
+            <div id="gallery"></div>
+        </div>
+
+        <div id="allMetaData"></div>
+    </div>
+
+</section>
+
+<section id="about">
+
+    <h3>Image Generation for Styles</h3>
+    
+    <p>All images were generated with either the <a href="https://huggingface.co/XpucT/Deliberate">Deliberate v2</a> or the <a href="https://huggingface.co/Lykon/DreamShaper">DreamShaper 3.2</a> Checkpoint.<br>Sampler was DMP++ 2M Karras or DMP++ SDE Karras, depending on the better result.<br>Very rarely DDIM (less than 0.5&percnt;). Final resolution never smaller than 768px &times; 768px.</p>
+    <p>The prompt for the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#prompts-from-file-or-textbox">textbox</a> was:
+        <code>
+        --prompt style of ArtistName --negative_prompt nude, nsfw, frame, border, text<br>
+        --prompt style of ArtistName, portrait of a woman --negative_prompt same as above<br>
+        --prompt style of ArtistName, Henry C_____ --negative_prompt superman<br>
+        --prompt style of ArtistName, street --negative_prompt text, frame, border
+        </code>
+        While Deliberate has some NSFW Checkpoint mixed in and needs 'nsfw' in the negative prompt, DreamShaper likes manga a lot and frequently requires 'manga, anime' in the np.
+    </p>
+    <p><em>Why these exact prompts?</em></p>
+    <p>The first line conveys a broad, uninfluenced impression.</p>
+    <p>With 'portrait of a woman', you will get a wider range of portraits that are more in line with the artist's personal aesthetic.</p>
+    <p>For the third line: The actor Henry C. is currently well-known and has been well-trained into SD. You can also judge the dominance of a style if he is still rendered normally (weak artist style) or when his superhero costume appears.</p>
+    <p>The last line, 'street', will give you a good idea of how houses, people, and technical items (cars, bikes, etc.) appear.</p>
+
+    <h3>Useful Links</h3>
+    
+    <p>Links that helped me understand the technical side of Stable Diffusion (no affiliation):</p>
+    
+    <ul>
+        <li><a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki">Automatic111 Wiki</a></li>
+        <li><a href="https://stable-diffusion-art.com/tutorials/">Stable-Diffusion-Art.com - Tutorials</a></li>
+    </ul>
+    
+    <h3>Errors</h3>
+    
+    <p>All information has been collected with the utmost care, however, mistakes always happen. Location information is sometimes difficult when artists move very early in life, or the indication of the era, if the lifetime falls between two centuries.</p>
+
+    <h3>Credits</h3>
+    
+    <p>A BIG THANK YOU TO:</p>
+    <p><a href="https://github.com/verlok/vanilla-lazyload">Lazyload Script</a> from Verlok, Webfont is Google's <a href="https://fonts.google.com/specimen/Roboto">Roboto</a>, SVG Icons from <a href="https://github.com/ionic-team/ionicons">Ionicons</a>, MattiasW's <a href="https://github.com/mattiasw/ExifReader">ExifReader</a>, Code from Himuro-Majika's <a href="https://github.com/himuro-majika/Stable_Diffusion_image_metadata_viewer">Stable Diffusion image metadata viewer</a> Browser Extension</p>
+    <p>Stable Diffusion by <a href="https://ommer-lab.com/research/latent-diffusion-models/">LMU</a> and <a href="https://stability.ai/">stability.ai</a></p>
+
+</section>
+
+<footer>Created 2023 - Version 1.0.0 - <a href="https://github.com/SupaGruen/StableDiffusion-CheatSheet">GitHub</a></footer>
+
+<span id="snackbar">Copied to Clipboard</span>
+
+</body>
+</html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stable Diffusion 1.5 - Cheat Sheet</title>
+<link href="./style.css" rel="stylesheet">
+<script src="./lazyload.min.js"></script>
+<script src="./exif-reader.js"></script>
+<script src="./data.js"></script>
+<script src="./spaghetticode.js"></script>
+</head>
+<body>
+
+<header>
+
+    <h1>Stable Diffusion 1.5 - Cheat Sheet</h1>
+    
+    <nav>
+        <ul>
+            <li><a class="mbut" data-page="styles" href="#">Styles</a></li>
+            <li><a class="mbut" data-page="helpers" href="#">Notes</a></li>
+            <li><a class="mbut" data-page="info" href="#">Metadata</a></li>
+            <li><a class="mbut" data-page="about" href="#">About</a></li>
+        </ul>
+        
+        <div id="suche">
+            <a href="#" class="filterbut">Filter</a>
+            <label for="searchbox" class="is-size-5">Search</label>
+            <input type="text" id="searchbox" placeholder="Search">
+            <a href="#" id="clearsearch">&times;</a>
+        </div>
+    </nav>
+    
+    <div id="allcats"></div>
+    
+</header>
+
+<section id="styles">
+    <h3>Artist Inspired Styles</h3>
+    <p>A collection of what Stable Diffusion imagines these artists' styles look like.</p><p>While having an overview is helpful, keep in mind that these styles only imitate certain aspects of the artist's work (color, medium, location, etc.). They are limited by the rather superficial knowledge of SD, but can probably give you a good base for your own creations.</p>
+    <div id="allthestyles"></div>
+</section>
+
+<section id="helpers">
+
+    <h3>Image Dimensions</h3>
+    
+    <p>Stable Diffusion was trained with base dimensions of 512 pixels (SD 1.5) and 768 pixels (SD 2/2.1).<br>While it's not necessary to stick to multiples of 128, it's a good place to start.</p>
+    <div class="numberline"><span>128</span><span>256</span><span>384</span><span class="highlight">512</span><span>640</span><span class="highlight">768</span><span>896</span><span>1024</span></div>
+
+    <p><strong>Some of the common ratios in SD dimensions:</strong></p>
+    <table id="dimensions">
+        <tr>
+            <td>Square</td>
+            <td>1:1</td>
+            <td id="ir1b1">512 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>2:3</td>
+            <td id="ir2b3">512 &times; 768</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>3:4</td>
+            <td id="ir3b4">512 &times; 683</td>
+        </tr>
+        <tr>
+            <td>Social Media</td>
+            <td>4:5</td>
+            <td id="ir4b5">512 &times; 640</td>
+        </tr>
+        <tr>
+            <td>Standard Monitor</td>
+            <td>16:9</td>
+            <td id="ir16b9">910 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
+            <td>16:10</td>
+            <td id="ir16b10">819 &times; 512</td>
+        </tr>
+        <tr>
+            <td>UltraWide Monitor</td>
+            <td>21:9</td>
+            <td id="ir21b9">1195 &times; 512</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="nobgr"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label for="ratiobox">Base size</label></td>
+            <td class="nobgr"><input type="search" id="ratiobox" placeholder="Base Size" value="512"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h3>Prompt Examples - Art Media</h3>
+
+    <h4>Photo</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/00-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/00-photo.webp"></a>
+            <figcaption>Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/01-analog-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/01-analog-photo.webp"></a>
+            <figcaption>Analog Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/15-lomography.webp" target="_blank"><img class="lazy" data-src="./img/types/15-lomography.webp"></a>
+            <figcaption>Lomography</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/17-pinhole.webp" target="_blank"><img class="lazy" data-src="./img/types/17-pinhole.webp"></a>
+            <figcaption>Pinhole Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/02-wet-plate-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/02-wet-plate-photo.webp"></a>
+            <figcaption>Wet Plate Photo</figcaption>
+        </figure>
+    </div>
+    
+    <h4>Drawing, Painting, Print</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/03-pencil-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/03-pencil-drawing.webp"></a>
+            <figcaption>Pencil Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/04-pen-and-ink-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/04-pen-and-ink-drawing.webp"></a>
+            <figcaption>Pen and Ink Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/06-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/06-watercolor-painting.webp"></a>
+            <figcaption>Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/07-pen-and-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/07-pen-and-watercolor-painting.webp"></a>
+            <figcaption>Pen and Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/08-oil-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/08-oil-painting.webp"></a>
+            <figcaption>Oil Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/09-acrylic-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/09-acrylic-painting.webp"></a>
+            <figcaption>Acrylic Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/10-rough-charcoal-sketch.webp" target="_blank"><img class="lazy" data-src="./img/types/10-rough-charcoal-sketch.webp"></a>
+            <figcaption>Rough Charcoal Sketch</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/20-crayon-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/20-crayon-drawing.webp"></a>
+            <figcaption>Crayon Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/05-engraving-illustration.webp" target="_blank"><img class="lazy" data-src="./img/types/05-engraving-illustration.webp"></a>
+            <figcaption>Engraving Illustration</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/24-mezzotint-print.webp" target="_blank"><img class="lazy" data-src="./img/types/24-mezzotint-print.webp"></a>
+            <figcaption>Mezzotint Print</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/25-linocut-print.webp" target="_blank"><img class="lazy" data-src="./img/types/25-linocut-print.webp"></a>
+            <figcaption>Linocut Print</figcaption>
+        </figure>
+        </div>
+    
+    <h4>Digital, Other</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/16-comic-character.webp" target="_blank"><img class="lazy" data-src="./img/types/16-comic-character.webp"></a>
+            <figcaption>Comic Character</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/19-pixel-art.webp" target="_blank"><img class="lazy" data-src="./img/types/19-pixel-art.webp"></a>
+            <figcaption>Pixel Art</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/22-vector-graphic.webp" target="_blank"><img class="lazy" data-src="./img/types/22-vector-graphic.webp"></a>
+            <figcaption>Vector Graphic</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/11-3d-render.webp" target="_blank"><img class="lazy" data-src="./img/types/11-3d-render.webp"></a>
+            <figcaption>3D Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/12-lowpoly-render.webp" target="_blank"><img class="lazy" data-src="./img/types/12-lowpoly-render.webp"></a>
+            <figcaption>Low Poly Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/18-modelling-clay.webp" target="_blank"><img class="lazy" data-src="./img/types/18-modelling-clay.webp"></a>
+            <figcaption>Modelling Clay</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/21-embroidery-cross-stitch.webp" target="_blank"><img class="lazy" data-src="./img/types/21-embroidery-cross-stitch.webp"></a>
+            <figcaption>Embroidery Cross Stitch</figcaption>
+        </figure>
+    </div>
+    
+    <h3>Art History - Some Pointers</h3>
+    
+    <ul id="arthistory">
+        <li>
+            <h4>Renaissance (14<sup>th</sup>-16<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Leonardo da Vinci, Michelangelo Buonarroti, Raffaello Sanzio da Urbino, Sandro Botticelli</li>
+                <li>Medium: Oil on wood or canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Mannerism (16<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, El Greco, Benvenuto Cellini, Jacopo Pontormo, Parmigianino, Bronzino</li>
+                <li>Medium: Oil on canvas, sculpture, and architecture</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Baroque (17<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, Gian Lorenzo Bernini, Rembrandt van Rijn, Peter Paul Rubens</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Rococo (18<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Jean-Antoine Watteau, François Boucher, Jean-Honoré Fragonard</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Neoclassicism (18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Jacques-Louis David, Jean-Auguste-Dominique Ingres, Antonio Canova</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Romanticism (late 18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Joseph Mallord William Turner, Francisco de Goya y Lucientes, Eugène Delacroix, Caspar David Friedrich</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Realism (mid-19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Courbet, Honoré Daumier, Jean-François Millet</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Impressionism (late 19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Claude Monet, Pierre-Auguste Renoir, Edgar Degas, Mary Cassatt</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Symbolism (late 19<sup>th</sup> to early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Moreau, Edvard Munch, Odilon Redon, Pierre Puvis de Chavannes, Fernand Khnopff, Franz von Stuck</li>
+                <li>Medium: Oil on canvas, drawing, and printmaking</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Expressionism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Edvard Munch, Wassily Kandinsky, Ernst Ludwig Kirchner</li>
+                <li>Medium: Oil on canvas or woodcuts</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Cubism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Pablo Picasso, Georges Braque, Juan Gris</li>
+                <li>Medium: Oil on canvas or collage</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Futurism (1909-1916)</h4>
+            <ul>
+                <li>Famous Artists: Umberto Boccioni, Giacomo Balla, Gino Severini</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Dada (1916-1924)</h4>
+            <ul>
+                <li>Famous Artists: Marcel Duchamp, Man Ray, Hannah Höch, Jean Arp, Francis Picabia, Kurt Schwitters</li>
+                <li>Medium: Collage, assemblage, and performance</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Bauhaus (1919-1933)</h4>
+            <ul>
+                <li>Famous Artists: Walter Gropius, Ludwig Mies van der Rohe, Wassily Kandinsky, Paul Klee, Josef Albers</li>
+                <li>Medium: Architecture, furniture, and graphic design</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Surrealism (1920s-30s)</h4>
+            <ul>
+                <li>Famous Artists: Salvador Dalí, René Magritte, Max Ernst</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Abstract Expressionism (1940s-50s)</h4>
+            <ul>
+                <li>Famous Artists: Jackson Pollock, Mark Rothko, Willem de Kooning</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Pop Art (1950s-60s)</h4>
+            <ul>
+                <li>Famous Artists: Andy Warhol, Roy Lichtenstein, Richard Hamilton</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Minimalism (1960s-70s)</h4>
+            <ul>
+                <li>Famous Artists: Donald Judd, Dan Flavin, Sol LeWitt</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Postmodernism (1970s-90s)</h4>
+            <ul>
+                <li>Famous Artists: Cindy Sherman, Jeff Koons, Barbara Kruger</li>
+                <li>Medium: A wide range of media, including painting, sculpture, installation, and performance art</li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>
+
+<section id="info">
+
+    <h3>Image Metadata</h3>
+    
+    <div id="metadataboxes">
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Drop File Here</p>
+                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            </form>
+            <div id="gallery"></div>
+        </div>
+
+        <div id="allMetaData"></div>
+    </div>
+
+</section>
+
+<section id="about">
+
+    <h3>Image Generation for Styles</h3>
+    
+    <p>All images were generated with either the <a href="https://huggingface.co/XpucT/Deliberate">Deliberate v2</a> or the <a href="https://huggingface.co/Lykon/DreamShaper">DreamShaper 3.2</a> Checkpoint.<br>Sampler was DMP++ 2M Karras or DMP++ SDE Karras, depending on the better result.<br>Very rarely DDIM (less than 0.5&percnt;). Final resolution never smaller than 768px &times; 768px.</p>
+    <p>The prompt for the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#prompts-from-file-or-textbox">textbox</a> was:
+        <code>
+        --prompt style of ArtistName --negative_prompt nude, nsfw, frame, border, text<br>
+        --prompt style of ArtistName, portrait of a woman --negative_prompt same as above<br>
+        --prompt style of ArtistName, Henry C_____ --negative_prompt superman<br>
+        --prompt style of ArtistName, street --negative_prompt text, frame, border
+        </code>
+        While Deliberate has some NSFW Checkpoint mixed in and needs 'nsfw' in the negative prompt, DreamShaper likes manga a lot and frequently requires 'manga, anime' in the np.
+    </p>
+    <p><em>Why these exact prompts?</em></p>
+    <p>The first line conveys a broad, uninfluenced impression.</p>
+    <p>With 'portrait of a woman', you will get a wider range of portraits that are more in line with the artist's personal aesthetic.</p>
+    <p>For the third line: The actor Henry C. is currently well-known and has been well-trained into SD. You can also judge the dominance of a style if he is still rendered normally (weak artist style) or when his superhero costume appears.</p>
+    <p>The last line, 'street', will give you a good idea of how houses, people, and technical items (cars, bikes, etc.) appear.</p>
+
+    <h3>Useful Links</h3>
+    
+    <p>Links that helped me understand the technical side of Stable Diffusion (no affiliation):</p>
+    
+    <ul>
+        <li><a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki">Automatic111 Wiki</a></li>
+        <li><a href="https://stable-diffusion-art.com/tutorials/">Stable-Diffusion-Art.com - Tutorials</a></li>
+    </ul>
+    
+    <h3>Errors</h3>
+    
+    <p>All information has been collected with the utmost care, however, mistakes always happen. Location information is sometimes difficult when artists move very early in life, or the indication of the era, if the lifetime falls between two centuries.</p>
+
+    <h3>Credits</h3>
+    
+    <p>A BIG THANK YOU TO:</p>
+    <p><a href="https://github.com/verlok/vanilla-lazyload">Lazyload Script</a> from Verlok, Webfont is Google's <a href="https://fonts.google.com/specimen/Roboto">Roboto</a>, SVG Icons from <a href="https://github.com/ionic-team/ionicons">Ionicons</a>, MattiasW's <a href="https://github.com/mattiasw/ExifReader">ExifReader</a>, Code from Himuro-Majika's <a href="https://github.com/himuro-majika/Stable_Diffusion_image_metadata_viewer">Stable Diffusion image metadata viewer</a> Browser Extension</p>
+    <p>Stable Diffusion by <a href="https://ommer-lab.com/research/latent-diffusion-models/">LMU</a> and <a href="https://stability.ai/">stability.ai</a></p>
+
+</section>
+
+<footer>Created 2023 - Version 1.0.0 - <a href="https://github.com/SupaGruen/StableDiffusion-CheatSheet">GitHub</a></footer>
+
+<span id="snackbar">Copied to Clipboard</span>
+
+</body>
+</html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stable Diffusion 1.5 - Cheat Sheet</title>
+<link href="./style.css" rel="stylesheet">
+<script src="./lazyload.min.js"></script>
+<script src="./exif-reader.js"></script>
+<script src="./data.js"></script>
+<script src="./spaghetticode.js"></script>
+</head>
+<body>
+
+<header>
+
+    <h1>Stable Diffusion 1.5 - Cheat Sheet</h1>
+    
+    <nav>
+        <ul>
+            <li><a class="mbut" data-page="styles" href="#">Styles</a></li>
+            <li><a class="mbut" data-page="helpers" href="#">Notes</a></li>
+            <li><a class="mbut" data-page="info" href="#">Metadata</a></li>
+            <li><a class="mbut" data-page="about" href="#">About</a></li>
+        </ul>
+        
+        <div id="suche">
+            <a href="#" class="filterbut">Filter</a>
+            <label for="searchbox" class="is-size-5">Search</label>
+            <input type="text" id="searchbox" placeholder="Search">
+            <a href="#" id="clearsearch">&times;</a>
+        </div>
+    </nav>
+    
+    <div id="allcats"></div>
+    
+</header>
+
+<section id="styles">
+    <h3>Artist Inspired Styles</h3>
+    <p>A collection of what Stable Diffusion imagines these artists' styles look like.</p><p>While having an overview is helpful, keep in mind that these styles only imitate certain aspects of the artist's work (color, medium, location, etc.). They are limited by the rather superficial knowledge of SD, but can probably give you a good base for your own creations.</p>
+    <div id="allthestyles"></div>
+</section>
+
+<section id="helpers">
+
+    <h3>Image Dimensions</h3>
+    
+    <p>Stable Diffusion was trained with base dimensions of 512 pixels (SD 1.5) and 768 pixels (SD 2/2.1).<br>While it's not necessary to stick to multiples of 128, it's a good place to start.</p>
+    <div class="numberline"><span>128</span><span>256</span><span>384</span><span class="highlight">512</span><span>640</span><span class="highlight">768</span><span>896</span><span>1024</span></div>
+
+    <p><strong>Some of the common ratios in SD dimensions:</strong></p>
+    <table id="dimensions">
+        <tr>
+            <td>Square</td>
+            <td>1:1</td>
+            <td id="ir1b1">512 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>2:3</td>
+            <td id="ir2b3">512 &times; 768</td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>3:4</td>
+            <td id="ir3b4">512 &times; 683</td>
+        </tr>
+        <tr>
+            <td>Social Media</td>
+            <td>4:5</td>
+            <td id="ir4b5">512 &times; 640</td>
+        </tr>
+        <tr>
+            <td>Standard Monitor</td>
+            <td>16:9</td>
+            <td id="ir16b9">910 &times; 512</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
+            <td>16:10</td>
+            <td id="ir16b10">819 &times; 512</td>
+        </tr>
+        <tr>
+            <td>UltraWide Monitor</td>
+            <td>21:9</td>
+            <td id="ir21b9">1195 &times; 512</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="nobgr"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label for="ratiobox">Base size</label></td>
+            <td class="nobgr"><input type="search" id="ratiobox" placeholder="Base Size" value="512"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h3>Prompt Examples - Art Media</h3>
+
+    <h4>Photo</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/00-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/00-photo.webp"></a>
+            <figcaption>Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/01-analog-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/01-analog-photo.webp"></a>
+            <figcaption>Analog Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/15-lomography.webp" target="_blank"><img class="lazy" data-src="./img/types/15-lomography.webp"></a>
+            <figcaption>Lomography</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/17-pinhole.webp" target="_blank"><img class="lazy" data-src="./img/types/17-pinhole.webp"></a>
+            <figcaption>Pinhole Photo</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/02-wet-plate-photo.webp" target="_blank"><img class="lazy" data-src="./img/types/02-wet-plate-photo.webp"></a>
+            <figcaption>Wet Plate Photo</figcaption>
+        </figure>
+    </div>
+    
+    <h4>Drawing, Painting, Print</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/03-pencil-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/03-pencil-drawing.webp"></a>
+            <figcaption>Pencil Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/04-pen-and-ink-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/04-pen-and-ink-drawing.webp"></a>
+            <figcaption>Pen and Ink Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/06-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/06-watercolor-painting.webp"></a>
+            <figcaption>Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/07-pen-and-watercolor-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/07-pen-and-watercolor-painting.webp"></a>
+            <figcaption>Pen and Watercolor Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/08-oil-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/08-oil-painting.webp"></a>
+            <figcaption>Oil Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/09-acrylic-painting.webp" target="_blank"><img class="lazy" data-src="./img/types/09-acrylic-painting.webp"></a>
+            <figcaption>Acrylic Painting</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/10-rough-charcoal-sketch.webp" target="_blank"><img class="lazy" data-src="./img/types/10-rough-charcoal-sketch.webp"></a>
+            <figcaption>Rough Charcoal Sketch</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/20-crayon-drawing.webp" target="_blank"><img class="lazy" data-src="./img/types/20-crayon-drawing.webp"></a>
+            <figcaption>Crayon Drawing</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/05-engraving-illustration.webp" target="_blank"><img class="lazy" data-src="./img/types/05-engraving-illustration.webp"></a>
+            <figcaption>Engraving Illustration</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/24-mezzotint-print.webp" target="_blank"><img class="lazy" data-src="./img/types/24-mezzotint-print.webp"></a>
+            <figcaption>Mezzotint Print</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/25-linocut-print.webp" target="_blank"><img class="lazy" data-src="./img/types/25-linocut-print.webp"></a>
+            <figcaption>Linocut Print</figcaption>
+        </figure>
+        </div>
+    
+    <h4>Digital, Other</h4>
+    <div class="examplegallery">
+        <figure>
+            <a href="./img/types/16-comic-character.webp" target="_blank"><img class="lazy" data-src="./img/types/16-comic-character.webp"></a>
+            <figcaption>Comic Character</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/19-pixel-art.webp" target="_blank"><img class="lazy" data-src="./img/types/19-pixel-art.webp"></a>
+            <figcaption>Pixel Art</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/22-vector-graphic.webp" target="_blank"><img class="lazy" data-src="./img/types/22-vector-graphic.webp"></a>
+            <figcaption>Vector Graphic</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/11-3d-render.webp" target="_blank"><img class="lazy" data-src="./img/types/11-3d-render.webp"></a>
+            <figcaption>3D Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/12-lowpoly-render.webp" target="_blank"><img class="lazy" data-src="./img/types/12-lowpoly-render.webp"></a>
+            <figcaption>Low Poly Render</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/18-modelling-clay.webp" target="_blank"><img class="lazy" data-src="./img/types/18-modelling-clay.webp"></a>
+            <figcaption>Modelling Clay</figcaption>
+        </figure>
+        <figure>
+            <a href="./img/types/21-embroidery-cross-stitch.webp" target="_blank"><img class="lazy" data-src="./img/types/21-embroidery-cross-stitch.webp"></a>
+            <figcaption>Embroidery Cross Stitch</figcaption>
+        </figure>
+    </div>
+    
+    <h3>Art History - Some Pointers</h3>
+    
+    <ul id="arthistory">
+        <li>
+            <h4>Renaissance (14<sup>th</sup>-16<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Leonardo da Vinci, Michelangelo Buonarroti, Raffaello Sanzio da Urbino, Sandro Botticelli</li>
+                <li>Medium: Oil on wood or canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Mannerism (16<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, El Greco, Benvenuto Cellini, Jacopo Pontormo, Parmigianino, Bronzino</li>
+                <li>Medium: Oil on canvas, sculpture, and architecture</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Baroque (17<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Michelangelo Merisi da Caravaggio, Gian Lorenzo Bernini, Rembrandt van Rijn, Peter Paul Rubens</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Rococo (18<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Jean-Antoine Watteau, François Boucher, Jean-Honoré Fragonard</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Neoclassicism (18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Jacques-Louis David, Jean-Auguste-Dominique Ingres, Antonio Canova</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Romanticism (late 18<sup>th</sup>-19<sup>th</sup> Centuries)</h4>
+            <ul>
+                <li>Famous Artists: Joseph Mallord William Turner, Francisco de Goya y Lucientes, Eugène Delacroix, Caspar David Friedrich</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Realism (mid-19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Courbet, Honoré Daumier, Jean-François Millet</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Impressionism (late 19<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Claude Monet, Pierre-Auguste Renoir, Edgar Degas, Mary Cassatt</li>
+                <li>Medium: Oil on canvas</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Symbolism (late 19<sup>th</sup> to early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Gustave Moreau, Edvard Munch, Odilon Redon, Pierre Puvis de Chavannes, Fernand Khnopff, Franz von Stuck</li>
+                <li>Medium: Oil on canvas, drawing, and printmaking</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Expressionism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Edvard Munch, Wassily Kandinsky, Ernst Ludwig Kirchner</li>
+                <li>Medium: Oil on canvas or woodcuts</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Cubism (early 20<sup>th</sup> Century)</h4>
+            <ul>
+                <li>Famous Artists: Pablo Picasso, Georges Braque, Juan Gris</li>
+                <li>Medium: Oil on canvas or collage</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Futurism (1909-1916)</h4>
+            <ul>
+                <li>Famous Artists: Umberto Boccioni, Giacomo Balla, Gino Severini</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Dada (1916-1924)</h4>
+            <ul>
+                <li>Famous Artists: Marcel Duchamp, Man Ray, Hannah Höch, Jean Arp, Francis Picabia, Kurt Schwitters</li>
+                <li>Medium: Collage, assemblage, and performance</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Bauhaus (1919-1933)</h4>
+            <ul>
+                <li>Famous Artists: Walter Gropius, Ludwig Mies van der Rohe, Wassily Kandinsky, Paul Klee, Josef Albers</li>
+                <li>Medium: Architecture, furniture, and graphic design</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Surrealism (1920s-30s)</h4>
+            <ul>
+                <li>Famous Artists: Salvador Dalí, René Magritte, Max Ernst</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Abstract Expressionism (1940s-50s)</h4>
+            <ul>
+                <li>Famous Artists: Jackson Pollock, Mark Rothko, Willem de Kooning</li>
+                <li>Medium: Oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Pop Art (1950s-60s)</h4>
+            <ul>
+                <li>Famous Artists: Andy Warhol, Roy Lichtenstein, Richard Hamilton</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Minimalism (1960s-70s)</h4>
+            <ul>
+                <li>Famous Artists: Donald Judd, Dan Flavin, Sol LeWitt</li>
+                <li>Medium: Acrylic or oil on canvas or mixed media</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Postmodernism (1970s-90s)</h4>
+            <ul>
+                <li>Famous Artists: Cindy Sherman, Jeff Koons, Barbara Kruger</li>
+                <li>Medium: A wide range of media, including painting, sculpture, installation, and performance art</li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>
+
+<section id="info">
+
+    <h3>Image Metadata</h3>
+    
+    <div id="metadataboxes">
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Drop File Here</p>
+                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            </form>
+            <div id="gallery"></div>
+        </div>
+
+        <div id="allMetaData"></div>
+    </div>
+
+</section>
+
+<section id="about">
+
+    <h3>Image Generation for Styles</h3>
+    
+    <p>All images were generated with either the <a href="https://huggingface.co/XpucT/Deliberate">Deliberate v2</a> or the <a href="https://huggingface.co/Lykon/DreamShaper">DreamShaper 3.2</a> Checkpoint.<br>Sampler was DMP++ 2M Karras or DMP++ SDE Karras, depending on the better result.<br>Very rarely DDIM (less than 0.5&percnt;). Final resolution never smaller than 768px &times; 768px.</p>
+    <p>The prompt for the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#prompts-from-file-or-textbox">textbox</a> was:
+        <code>
+        --prompt style of ArtistName --negative_prompt nude, nsfw, frame, border, text<br>
+        --prompt style of ArtistName, portrait of a woman --negative_prompt same as above<br>
+        --prompt style of ArtistName, Henry C_____ --negative_prompt superman<br>
+        --prompt style of ArtistName, street --negative_prompt text, frame, border
+        </code>
+        While Deliberate has some NSFW Checkpoint mixed in and needs 'nsfw' in the negative prompt, DreamShaper likes manga a lot and frequently requires 'manga, anime' in the np.
+    </p>
+    <p><em>Why these exact prompts?</em></p>
+    <p>The first line conveys a broad, uninfluenced impression.</p>
+    <p>With 'portrait of a woman', you will get a wider range of portraits that are more in line with the artist's personal aesthetic.</p>
+    <p>For the third line: The actor Henry C. is currently well-known and has been well-trained into SD. You can also judge the dominance of a style if he is still rendered normally (weak artist style) or when his superhero costume appears.</p>
+    <p>The last line, 'street', will give you a good idea of how houses, people, and technical items (cars, bikes, etc.) appear.</p>
+
+    <h3>Useful Links</h3>
+    
+    <p>Links that helped me understand the technical side of Stable Diffusion (no affiliation):</p>
+    
+    <ul>
+        <li><a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki">Automatic111 Wiki</a></li>
+        <li><a href="https://stable-diffusion-art.com/tutorials/">Stable-Diffusion-Art.com - Tutorials</a></li>
+    </ul>
+    
+    <h3>Errors</h3>
+    
+    <p>All information has been collected with the utmost care, however, mistakes always happen. Location information is sometimes difficult when artists move very early in life, or the indication of the era, if the lifetime falls between two centuries.</p>
+
+    <h3>Credits</h3>
+    
+    <p>A BIG THANK YOU TO:</p>
+    <p><a href="https://github.com/verlok/vanilla-lazyload">Lazyload Script</a> from Verlok, Webfont is Google's <a href="https://fonts.google.com/specimen/Roboto">Roboto</a>, SVG Icons from <a href="https://github.com/ionic-team/ionicons">Ionicons</a>, MattiasW's <a href="https://github.com/mattiasw/ExifReader">ExifReader</a>, Code from Himuro-Majika's <a href="https://github.com/himuro-majika/Stable_Diffusion_image_metadata_viewer">Stable Diffusion image metadata viewer</a> Browser Extension</p>
+    <p>Stable Diffusion by <a href="https://ommer-lab.com/research/latent-diffusion-models/">LMU</a> and <a href="https://stability.ai/">stability.ai</a></p>
+
+</section>
+
+<footer>Created 2023 - Version 1.0.0 - <a href="https://github.com/SupaGruen/StableDiffusion-CheatSheet">GitHub</a></footer>
+
+<span id="snackbar">Copied to Clipboard</span>
+
+</body>
+</html>
